@@ -15,6 +15,8 @@ export default function Home() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [agentMessage, setAgentMessage] = useState<string | null>(null);
   const [blueprintTab, setBlueprintTab] = useState("executive");
+  const [blueprintData, setBlueprintData] = useState<any>(null);
+  const [blueprintLoading, setBlueprintLoading] = useState(false);
   const [aiBlueprint, setAiBlueprint] = useState<any>(null);
 
   const handleAnalyze = async () => {
@@ -46,6 +48,20 @@ export default function Home() {
         setAiBlueprint(agentData.blueprint);
       })
       .catch(err => console.error("Agent Engine Offline"));
+
+      // Full Blueprint Generator
+      setBlueprintLoading(true);
+      fetch("/api/blueprint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, serpData: data }),
+      })
+      .then(res => res.json())
+      .then(bpData => {
+         if (!bpData.error) setBlueprintData(bpData);
+      })
+      .catch(err => console.error("Blueprint Error"))
+      .finally(() => setBlueprintLoading(false));
 
     } catch (error) {
       setResults({ error: "API connection severed." });
@@ -595,11 +611,7 @@ export default function Home() {
                       </h1>
                       <p className="text-xl text-slate-400 max-w-2xl mx-auto">Smarter market entry. Healthier margins. We synthesize live search trends, wholesale pricing, and SEO gaps so you can build without delays.</p>
                       
-                      <div className="flex justify-center gap-4 mt-8">
-                        <span className="flex items-center gap-2 bg-[#121212] px-4 py-2 rounded-xl shadow-sm border border-white/10 text-sm font-bold text-slate-300"><Briefcase className="h-4 w-4 text-indigo-500"/> E-Commerce</span>
-                        <span className="flex items-center gap-2 bg-[#121212] px-4 py-2 rounded-xl shadow-sm border border-white/10 text-sm font-bold text-slate-300"><Bot className="h-4 w-4 text-blue-500"/> AI Analysis</span>
-                        <span className="flex items-center gap-2 bg-[#121212] px-4 py-2 rounded-xl shadow-sm border border-white/10 text-sm font-bold text-slate-300"><Network className="h-4 w-4 text-emerald-500"/> Dropship Moat</span>
-                      </div>
+                      
                     </div>
 
                     
@@ -671,9 +683,9 @@ export default function Home() {
                             <AlertCircle className="h-5 w-5" /> <span className="bg-rose-500 text-white px-2 py-0.5 rounded text-sm">The Problem</span>
                           </div>
                           <ul className="space-y-4 text-sm text-slate-400">
-                            <li className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2"></div> Manual competitor pricing research for <strong>{query}</strong> takes days.</li>
-                            <li className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2"></div> High advertising rejection rates due to saturated generic keywords.</li>
-                            <li className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2"></div> You don't know the actual wholesale floor beneath the ${minPrice.toFixed(2)} retail minimum.</li>
+                            <li className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2"></div> {blueprintData.executiveSummary?.problem}</li>
+                            
+                            
                           </ul>
                         </div>
                         <div className="bg-blue-500/20/50 p-6 rounded-2xl border border-blue-100 space-y-6">
@@ -681,9 +693,9 @@ export default function Home() {
                             <Lightbulb className="h-5 w-5" /> The Solution
                           </div>
                           <ul className="space-y-4 text-sm text-slate-300 font-medium">
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0" /> AI maps exactly to the right B2B Suppliers for <strong>{query}</strong> instantly.</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0" /> Generates a targeted SEO Threat Web to bypass broad keyword competition.</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0" /> Auto-calculates your target margin (Floor: ${minPrice.toFixed(2)}, Target Bulk: ${(minPrice*0.35).toFixed(2)}).</li>
+                            {blueprintData.executiveSummary?.solutions?.map((sol: string, i: number) => (
+                              <li key={i} className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0" /> {sol}</li>
+                            ))}
                           </ul>
                         </div>
                       </div>

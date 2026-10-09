@@ -15,7 +15,6 @@ export default function Home() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [agentMessage, setAgentMessage] = useState<string | null>(null);
   const [blueprintTab, setBlueprintTab] = useState("executive");
-  const [blueprintData, setBlueprintData] = useState<any>(null);
   const [blueprintLoading, setBlueprintLoading] = useState(false);
   const [aiBlueprint, setAiBlueprint] = useState<any>(null);
 
@@ -44,8 +43,7 @@ export default function Home() {
       })
       .then(res => res.json())
       .then(agentData => {
-        setAgentMessage(agentData.chatSummary);
-        setAiBlueprint(agentData.blueprint);
+        setAgentMessage(agentData.response || agentData.chatSummary);
       })
       .catch(err => console.error("Agent Engine Offline"));
 
@@ -58,7 +56,7 @@ export default function Home() {
       })
       .then(res => res.json())
       .then(bpData => {
-         if (!bpData.error) setBlueprintData(bpData);
+         if (!bpData.error) setAiBlueprint(bpData);
       })
       .catch(err => console.error("Blueprint Error"))
       .finally(() => setBlueprintLoading(false));
@@ -683,7 +681,7 @@ export default function Home() {
                             <AlertCircle className="h-5 w-5" /> <span className="bg-rose-500 text-white px-2 py-0.5 rounded text-sm">The Problem</span>
                           </div>
                           <ul className="space-y-4 text-sm text-slate-400">
-                            <li className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2"></div> {blueprintData.executiveSummary?.problem}</li>
+                            <li className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2"></div> {aiBlueprint.problemText}</li>
                             
                             
                           </ul>
@@ -693,9 +691,7 @@ export default function Home() {
                             <Lightbulb className="h-5 w-5" /> The Solution
                           </div>
                           <ul className="space-y-4 text-sm text-slate-300 font-medium">
-                            {blueprintData.executiveSummary?.solutions?.map((sol: string, i: number) => (
-                              <li key={i} className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0" /> {sol}</li>
-                            ))}
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0" /> {aiBlueprint.solutionText}</li>
                           </ul>
                         </div>
                       </div>

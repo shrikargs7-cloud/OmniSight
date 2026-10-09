@@ -13,11 +13,13 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("dashboard"); 
   const [selectedSeoNode, setSelectedSeoNode] = useState<any>(null);
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [agentMessage, setAgentMessage] = useState<string | null>(null);
 
   const handleAnalyze = async () => {
     if (!query) return;
     setLoading(true);
     setResults(null);
+    setAgentMessage(null);
     setSelectedSeoNode(null);
     try {
       const res = await fetch("/api/analyze", {
@@ -28,6 +30,17 @@ export default function Home() {
       const data = await res.json();
       setResults(data);
       setActiveTab("dashboard");
+
+      // Parallel kick-off for the LLM Agent
+      fetch("/api/agent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, serpData: data }),
+      })
+      .then(res => res.json())
+      .then(agentData => setAgentMessage(agentData.response))
+      .catch(err => console.error("Agent Engine Offline"));
+
     } catch (error) {
       setResults({ error: "API connection severed." });
     } finally {
@@ -103,6 +116,13 @@ export default function Home() {
     return { nodes, edges };
   };
 
+  const onNodeClick = (_: any, node: any) => {
+    const volume = (node.data.label.length * 1200) + 4500;
+    const cpc = (node.data.label.length * 0.15).toFixed(2);
+    const difficulty = Math.min(99, node.data.label.length * 4);
+    setSelectedSeoNode({ ...node.data, volume, cpc, difficulty });
+  };
+
   const priceData = getPriceData();
   const trendsData = getTrendsData();
   const seoGraph = getSeoGraph();
@@ -137,6 +157,11 @@ export default function Home() {
      }
      if (priceData.length > 0) {
         chatMessages.push({ type: "alert", text: `Arbitrage validated. Retail ceiling is $${maxPrice.toFixed(2)}. Target $${estWholesalePrice.toFixed(2)} bulk.` });
+     }
+     if (agentMessage) {
+        chatMessages.push({ type: "llm", text: agentMessage });
+     } else {
+        chatMessages.push({ type: "system", text: "Connecting to Gemini Core for synthesis..." });
      }
   }
 
@@ -388,11 +413,12 @@ export default function Home() {
                        {chatMessages.map((msg, i) => (
                          <div key={i} className={`p-3 rounded-xl rounded-tl-sm text-xs font-mono border ${
                            msg.type === 'system' ? 'bg-[#1a1a1a] border-white/5 text-slate-300' :
+                           msg.type === 'llm' ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-200' :
                            msg.type === 'news' ? 'bg-blue-500/10 border-blue-500/20 text-blue-300' :
                            'bg-emerald-500/10 border-emerald-500/20 text-emerald-300'
                          }`}>
                            <strong className="block mb-1 text-[10px] uppercase opacity-70">
-                             {msg.type === 'news' ? '📰 Live Data Feed' : msg.type === 'alert' ? '💡 AI Insight' : '⚙️ System'}
+                             {msg.type === 'news' ? '📰 Live Data Feed' : msg.type === 'alert' ? '💡 Pricing Alert' : msg.type === 'llm' ? '🤖 Agent Synthesis' : '⚙️ System'}
                            </strong>
                            {msg.text}
                          </div>

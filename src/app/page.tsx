@@ -14,6 +14,7 @@ export default function Home() {
   const [selectedSeoNode, setSelectedSeoNode] = useState<any>(null);
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [agentMessage, setAgentMessage] = useState<string | null>(null);
+  const [blueprintTab, setBlueprintTab] = useState("executive");
 
   const handleAnalyze = async () => {
     if (!query) return;
@@ -596,8 +597,29 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <hr className="my-16 border-slate-200" />
+                    
+                    <div className="flex flex-wrap items-center justify-center gap-2 md:gap-8 mb-12 mt-12 border-b border-slate-200 pb-px">
+                      <button 
+                        onClick={() => setBlueprintTab('executive')}
+                        className={`px-2 py-4 font-bold text-sm transition-all border-b-2 ${blueprintTab === 'executive' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                      >
+                        Executive Summary
+                      </button>
+                      <button 
+                        onClick={() => setBlueprintTab('market')}
+                        className={`px-2 py-4 font-bold text-sm transition-all border-b-2 ${blueprintTab === 'market' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                      >
+                        Market Gap Analysis
+                      </button>
+                      <button 
+                        onClick={() => setBlueprintTab('roadmap')}
+                        className={`px-2 py-4 font-bold text-sm transition-all border-b-2 ${blueprintTab === 'roadmap' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                      >
+                        Visual Roadmap
+                      </button>
+                    </div>
 
+                    <div className={`animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-16 ${blueprintTab === "executive" ? "block" : "hidden"}`}>
                     {/* Section 1: The Opportunity */}
                     <div>
                       <h2 className="text-2xl font-bold flex items-center gap-3 mb-8">
@@ -623,7 +645,7 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <hr className="my-16 border-slate-200" />
+                    
 
                     {/* Section 2: Problem -> Solution */}
                     <div>
@@ -655,8 +677,11 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <hr className="my-16 border-slate-200" />
+                    
 
+                    </div>
+
+                    <div className={`animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-16 ${blueprintTab === "roadmap" ? "block" : "hidden"}`}>
                     {/* Section 3: How It Works */}
                     <div>
                       <h2 className="text-2xl font-bold flex items-center gap-3 mb-8">
@@ -692,8 +717,11 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <hr className="my-16 border-slate-200" />
+                    
 
+                    </div>
+
+                    <div className={`animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-16 ${blueprintTab === "market" ? "block" : "hidden"}`}>
                     {/* Section 4: Market & Insights */}
                     <div>
                       <h2 className="text-2xl font-bold flex items-center gap-3 mb-8">
@@ -739,7 +767,7 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <hr className="my-16 border-slate-200" />
+                    
 
                     {/* Section 5: AI Insights */}
                     <div>
@@ -780,8 +808,11 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <hr className="my-16 border-slate-200" />
+                    
 
+                    </div>
+
+                    <div className={`animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-16 ${blueprintTab === "roadmap" ? "block" : "hidden"}`}>
                     {/* Section 6: Roadmap */}
                     <div className="pb-16">
                       <h2 className="text-2xl font-bold flex items-center gap-3 mb-8">
@@ -825,6 +856,7 @@ export default function Home() {
                         </div>
 
                       </div>
+                    </div>
                     </div>
 
                   </div>

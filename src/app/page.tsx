@@ -577,7 +577,7 @@ export default function Home() {
 
               {/* TAB 5: STARTUP BLUEPRINT (INFOGRAPHIC REDESIGN) */}
               {activeTab === "blueprint" && (
-                <div className="h-full overflow-y-auto bg-slate-50 text-slate-900 rounded-3xl shadow-2xl relative scroll-smooth">
+                <div className="h-full overflow-y-auto bg-[#0a0a0a] text-slate-200 rounded-3xl shadow-2xl relative scroll-smooth">
                   <div className="p-10 lg:p-16 max-w-7xl mx-auto">
                     
                     {/* Hero Section */}
@@ -585,35 +585,35 @@ export default function Home() {
                       <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-4">
                         <Rocket className="h-4 w-4" /> Startup Guide
                       </div>
-                      <h1 className="text-5xl lg:text-7xl font-black text-slate-900 tracking-tight leading-tight">
-                        {query.toUpperCase()} <br/><span className="text-blue-600">Intelligence.</span>
+                      <h1 className="text-5xl lg:text-7xl font-black text-white tracking-tight leading-tight">
+                        {query.toUpperCase()} <br/><span className="text-blue-400">Intelligence.</span>
                       </h1>
-                      <p className="text-xl text-slate-500 max-w-2xl mx-auto">Smarter market entry. Healthier margins. We synthesize live search trends, wholesale pricing, and SEO gaps so you can build without delays.</p>
+                      <p className="text-xl text-slate-400 max-w-2xl mx-auto">Smarter market entry. Healthier margins. We synthesize live search trends, wholesale pricing, and SEO gaps so you can build without delays.</p>
                       
                       <div className="flex justify-center gap-4 mt-8">
-                        <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 text-sm font-bold text-slate-700"><Briefcase className="h-4 w-4 text-indigo-500"/> E-Commerce</span>
-                        <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 text-sm font-bold text-slate-700"><Bot className="h-4 w-4 text-blue-500"/> AI Analysis</span>
-                        <span className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 text-sm font-bold text-slate-700"><Network className="h-4 w-4 text-emerald-500"/> Dropship Moat</span>
+                        <span className="flex items-center gap-2 bg-[#121212] px-4 py-2 rounded-xl shadow-sm border border-white/10 text-sm font-bold text-slate-300"><Briefcase className="h-4 w-4 text-indigo-500"/> E-Commerce</span>
+                        <span className="flex items-center gap-2 bg-[#121212] px-4 py-2 rounded-xl shadow-sm border border-white/10 text-sm font-bold text-slate-300"><Bot className="h-4 w-4 text-blue-500"/> AI Analysis</span>
+                        <span className="flex items-center gap-2 bg-[#121212] px-4 py-2 rounded-xl shadow-sm border border-white/10 text-sm font-bold text-slate-300"><Network className="h-4 w-4 text-emerald-500"/> Dropship Moat</span>
                       </div>
                     </div>
 
                     
-                    <div className="flex flex-wrap items-center justify-center gap-2 md:gap-8 mb-12 mt-12 border-b border-slate-200 pb-px">
+                    <div className="flex flex-wrap items-center justify-center gap-2 md:gap-8 mb-12 mt-12 border-b border-white/10 pb-px">
                       <button 
                         onClick={() => setBlueprintTab('executive')}
-                        className={`px-2 py-4 font-bold text-sm transition-all border-b-2 ${blueprintTab === 'executive' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                        className={`px-2 py-4 font-bold text-sm transition-all border-b-2 ${blueprintTab === 'executive' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
                       >
                         Executive Summary
                       </button>
                       <button 
                         onClick={() => setBlueprintTab('market')}
-                        className={`px-2 py-4 font-bold text-sm transition-all border-b-2 ${blueprintTab === 'market' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                        className={`px-2 py-4 font-bold text-sm transition-all border-b-2 ${blueprintTab === 'market' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
                       >
                         Market Gap Analysis
                       </button>
                       <button 
                         onClick={() => setBlueprintTab('roadmap')}
-                        className={`px-2 py-4 font-bold text-sm transition-all border-b-2 ${blueprintTab === 'roadmap' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                        className={`px-2 py-4 font-bold text-sm transition-all border-b-2 ${blueprintTab === 'roadmap' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
                       >
                         Visual Roadmap
                       </button>
@@ -627,20 +627,20 @@ export default function Home() {
                         What is this opportunity?
                       </h2>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6"><Target className="h-6 w-6"/></div>
+                        <div className="bg-[#121212] p-6 rounded-3xl border border-white/10 shadow-sm hover:shadow-md transition-shadow">
+                          <div className="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-2xl flex items-center justify-center mb-6"><Target className="h-6 w-6"/></div>
                           <h4 className="font-bold text-lg mb-3">Who is it for?</h4>
-                          <p className="text-sm text-slate-500 leading-relaxed">Founders, brands, and retail arbitragers looking to capitalize on the massive demand in the <strong className="text-slate-800">{query.toUpperCase()}</strong> space without holding dead inventory.</p>
+                          <p className="text-sm text-slate-400 leading-relaxed">Founders, brands, and retail arbitragers looking to capitalize on the massive demand in the <strong className="text-slate-800">{query.toUpperCase()}</strong> space without holding dead inventory.</p>
                         </div>
-                        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="bg-[#121212] p-6 rounded-3xl border border-white/10 shadow-sm hover:shadow-md transition-shadow">
                           <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6"><ShieldAlert className="h-6 w-6"/></div>
                           <h4 className="font-bold text-lg mb-3">What problem does it solve?</h4>
-                          <p className="text-sm text-slate-500 leading-relaxed">Reduces risk by exploiting the pricing gap between {priceData[0]?.name || 'top retailers'}'s <strong className="text-slate-800">${maxPrice.toFixed(2)}</strong> ceiling and your <strong className="text-slate-800">${estWholesalePrice.toFixed(2)}</strong> wholesale floor.</p>
+                          <p className="text-sm text-slate-400 leading-relaxed">Reduces risk by exploiting the pricing gap between {priceData[0]?.name || 'top retailers'}'s <strong className="text-slate-800">${maxPrice.toFixed(2)}</strong> ceiling and your <strong className="text-slate-800">${estWholesalePrice.toFixed(2)}</strong> wholesale floor.</p>
                         </div>
-                        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="bg-[#121212] p-6 rounded-3xl border border-white/10 shadow-sm hover:shadow-md transition-shadow">
                           <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6"><TrendingUp className="h-6 w-6"/></div>
                           <h4 className="font-bold text-lg mb-3">The Value</h4>
-                          <p className="text-sm text-slate-500 leading-relaxed">Faster market validation, fewer dead holds, and reduced ad spend by targeting exact <strong className="text-slate-800">{query}</strong> consumer intent gaps.</p>
+                          <p className="text-sm text-slate-400 leading-relaxed">Faster market validation, fewer dead holds, and reduced ad spend by targeting exact <strong className="text-slate-800">{query}</strong> consumer intent gaps.</p>
                         </div>
                       </div>
                     </div>
@@ -653,22 +653,22 @@ export default function Home() {
                         <span className="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-lg shadow-purple-500/30">2</span> 
                         The Problem <ArrowRight className="h-5 w-5 text-slate-300 mx-2" /> Solution
                       </h2>
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-[#121212] p-8 rounded-3xl border border-white/10 shadow-sm">
                         <div className="space-y-6">
                           <div className="flex items-center gap-3 text-rose-500 font-bold border-b border-slate-100 pb-4">
                             <AlertCircle className="h-5 w-5" /> <span className="bg-rose-500 text-white px-2 py-0.5 rounded text-sm">The Problem</span>
                           </div>
-                          <ul className="space-y-4 text-sm text-slate-600">
+                          <ul className="space-y-4 text-sm text-slate-400">
                             <li className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2"></div> Manual competitor pricing research for <strong>{query}</strong> takes days.</li>
                             <li className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2"></div> High advertising rejection rates due to saturated generic keywords.</li>
                             <li className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-rose-400 mt-2"></div> You don't know the actual wholesale floor beneath the ${minPrice.toFixed(2)} retail minimum.</li>
                           </ul>
                         </div>
-                        <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 space-y-6">
-                          <div className="flex items-center gap-3 text-blue-600 font-bold border-b border-blue-100 pb-4">
+                        <div className="bg-blue-500/20/50 p-6 rounded-2xl border border-blue-100 space-y-6">
+                          <div className="flex items-center gap-3 text-blue-400 font-bold border-b border-blue-100 pb-4">
                             <Lightbulb className="h-5 w-5" /> The Solution
                           </div>
-                          <ul className="space-y-4 text-sm text-slate-700 font-medium">
+                          <ul className="space-y-4 text-sm text-slate-300 font-medium">
                             <li className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0" /> AI maps exactly to the right B2B Suppliers for <strong>{query}</strong> instantly.</li>
                             <li className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0" /> Generates a targeted SEO Threat Web to bypass broad keyword competition.</li>
                             <li className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-blue-500 shrink-0" /> Auto-calculates your target margin (Floor: ${minPrice.toFixed(2)}, Target Bulk: ${(minPrice*0.35).toFixed(2)}).</li>
@@ -688,31 +688,31 @@ export default function Home() {
                         <span className="bg-emerald-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-lg shadow-emerald-500/30">3</span> 
                         How It Works
                       </h2>
-                      <p className="text-slate-500 mb-8 text-sm">A simple 4-step journey from market gap to product launch.</p>
+                      <p className="text-slate-400 mb-8 text-sm">A simple 4-step journey from market gap to product launch.</p>
                       
                       <div className="flex flex-col lg:flex-row gap-4 items-center">
-                        <div className="flex-1 bg-white border border-slate-200 p-6 rounded-2xl text-center shadow-sm w-full">
+                        <div className="flex-1 bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm w-full">
                           <div className="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">1</div>
                           <h4 className="font-bold text-sm mb-2">Extract Pricing</h4>
-                          <p className="text-xs text-slate-500">Scrape {priceData.length} global retailers for <strong>{query}</strong> baseline pricing.</p>
+                          <p className="text-xs text-slate-400">Scrape {priceData.length} global retailers for <strong>{query}</strong> baseline pricing.</p>
                         </div>
                         <ArrowRight className="text-slate-300 hidden lg:block shrink-0" />
-                        <div className="flex-1 bg-white border border-slate-200 p-6 rounded-2xl text-center shadow-sm w-full">
-                          <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">2</div>
+                        <div className="flex-1 bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm w-full">
+                          <div className="w-10 h-10 bg-blue-100 text-blue-400 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">2</div>
                           <h4 className="font-bold text-sm mb-2">Analyze SEO</h4>
-                          <p className="text-xs text-slate-500">Map Google "People Also Ask" to find unanswered questions.</p>
+                          <p className="text-xs text-slate-400">Map Google "People Also Ask" to find unanswered questions.</p>
                         </div>
                         <ArrowRight className="text-slate-300 hidden lg:block shrink-0" />
-                        <div className="flex-1 bg-white border border-slate-200 p-6 rounded-2xl text-center shadow-sm w-full">
-                          <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">3</div>
+                        <div className="flex-1 bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm w-full">
+                          <div className="w-10 h-10 bg-emerald-500/20 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">3</div>
                           <h4 className="font-bold text-sm mb-2">Vendor Lock</h4>
-                          <p className="text-xs text-slate-500">Contact suppliers via our B2B Hub for a 65% bulk discount.</p>
+                          <p className="text-xs text-slate-400">Contact suppliers via our B2B Hub for a 65% bulk discount.</p>
                         </div>
                         <ArrowRight className="text-slate-300 hidden lg:block shrink-0" />
-                        <div className="flex-1 bg-white border border-slate-200 p-6 rounded-2xl text-center shadow-sm border-b-4 border-b-emerald-400 w-full">
+                        <div className="flex-1 bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm border-b-4 border-b-emerald-400 w-full">
                           <div className="w-10 h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold"><CheckCircle2 className="h-5 w-5"/></div>
                           <h4 className="font-bold text-sm mb-2">Launch Fast</h4>
-                          <p className="text-xs text-slate-500">Deploy landing pages targeting the exact SEO gaps found.</p>
+                          <p className="text-xs text-slate-400">Deploy landing pages targeting the exact SEO gaps found.</p>
                         </div>
                       </div>
                     </div>
@@ -730,22 +730,22 @@ export default function Home() {
                       </h2>
                       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                         
-                        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-center">
+                        <div className="bg-[#121212] p-6 rounded-3xl border border-white/10 shadow-sm flex flex-col justify-center">
                           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Retail Floor Price</p>
-                          <h3 className="text-4xl font-black text-slate-900">${minPrice.toFixed(2)}</h3>
-                          <p className="text-xs text-slate-500 mt-2">Lowest detected market entry.</p>
+                          <h3 className="text-4xl font-black text-white">${minPrice.toFixed(2)}</h3>
+                          <p className="text-xs text-slate-400 mt-2">Lowest detected market entry.</p>
                         </div>
-                        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-center">
+                        <div className="bg-[#121212] p-6 rounded-3xl border border-white/10 shadow-sm flex flex-col justify-center">
                           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Wholesale Target</p>
                           <h3 className="text-4xl font-black text-emerald-500">${(minPrice*0.35).toFixed(2)}</h3>
-                          <p className="text-xs text-slate-500 mt-2">Required acquisition cost.</p>
+                          <p className="text-xs text-slate-400 mt-2">Required acquisition cost.</p>
                         </div>
                         
-                        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm col-span-1 lg:col-span-2 flex items-center">
+                        <div className="bg-[#121212] p-6 rounded-3xl border border-white/10 shadow-sm col-span-1 lg:col-span-2 flex items-center">
                           <div className="flex-1">
                             <h4 className="font-bold text-sm mb-4">Customer Segments</h4>
-                            <ul className="space-y-3 text-xs text-slate-600">
-                              <li className="flex items-center justify-between"><span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-blue-500"></div> D2C E-Commerce</span> <strong>42%</strong></li>
+                            <ul className="space-y-3 text-xs text-slate-400">
+                              <li className="flex items-center justify-between"><span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-blue-500/200"></div> D2C E-Commerce</span> <strong>42%</strong></li>
                               <li className="flex items-center justify-between"><span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-purple-500"></div> Wholesale B2B</span> <strong>28%</strong></li>
                               <li className="flex items-center justify-between"><span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> Retail Partners</span> <strong>18%</strong></li>
                             </ul>
@@ -776,23 +776,23 @@ export default function Home() {
                         AI-Generated Insights
                       </h2>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                        <div className="bg-emerald-50/50 p-6 rounded-3xl border border-emerald-100">
-                           <h4 className="font-bold text-emerald-800 flex items-center gap-2 mb-4"><div className="bg-emerald-100 p-1 rounded"><ArrowRight className="h-4 w-4 text-emerald-600"/></div> What's going well</h4>
-                           <ul className="space-y-3 text-sm text-emerald-700/80">
+                        <div className="bg-emerald-500/10 p-6 rounded-3xl border border-emerald-500/20">
+                           <h4 className="font-bold text-emerald-400 flex items-center gap-2 mb-4"><div className="bg-emerald-500/20 p-1 rounded"><ArrowRight className="h-4 w-4 text-emerald-600"/></div> What's going well</h4>
+                           <ul className="space-y-3 text-sm text-emerald-300/80">
                              <li>• <strong>{query.toUpperCase()}</strong> shows search trend stability.</li>
                              <li>• Wide retail price variance (${minPrice.toFixed(2)} to ${maxPrice.toFixed(2)}) allows markup flexibility.</li>
                            </ul>
                         </div>
-                        <div className="bg-amber-50/50 p-6 rounded-3xl border border-amber-100">
-                           <h4 className="font-bold text-amber-800 flex items-center gap-2 mb-4"><div className="bg-amber-100 p-1 rounded"><AlertCircle className="h-4 w-4 text-amber-600"/></div> What needs attention</h4>
-                           <ul className="space-y-3 text-sm text-amber-700/80">
+                        <div className="bg-amber-500/10 p-6 rounded-3xl border border-amber-500/20">
+                           <h4 className="font-bold text-amber-400 flex items-center gap-2 mb-4"><div className="bg-amber-500/20 p-1 rounded"><AlertCircle className="h-4 w-4 text-amber-600"/></div> What needs attention</h4>
+                           <ul className="space-y-3 text-sm text-amber-300/80">
                              <li>• Heavy saturation on generic <strong>{query}</strong> keywords.</li>
                              <li>• {results.seoData?.searches?.length || 5} related search clusters dominate the ad space.</li>
                            </ul>
                         </div>
-                        <div className="bg-purple-50/50 p-6 rounded-3xl border border-purple-100">
-                           <h4 className="font-bold text-purple-800 flex items-center gap-2 mb-4"><div className="bg-purple-100 p-1 rounded"><Zap className="h-4 w-4 text-purple-600"/></div> The "Why?"</h4>
-                           <ul className="space-y-3 text-sm text-purple-700/80">
+                        <div className="bg-purple-500/10 p-6 rounded-3xl border border-purple-500/20">
+                           <h4 className="font-bold text-purple-400 flex items-center gap-2 mb-4"><div className="bg-purple-500/20 p-1 rounded"><Zap className="h-4 w-4 text-purple-600"/></div> The "Why?"</h4>
+                           <ul className="space-y-3 text-sm text-purple-300/80">
                              <li>• Consumers are actively asking <em>"{results.seoData?.questions?.[0]?.question || query}"</em>.</li>
                              <li>• Legacy brands are ignoring these long-tail intent queries.</li>
                            </ul>
@@ -804,7 +804,7 @@ export default function Home() {
                             <h4 className="font-bold text-lg flex items-center gap-2 mb-2"><Lightbulb className="h-5 w-5 text-yellow-300"/> AI Recommendation</h4>
                             <p className="text-blue-100 text-sm">Target the exact question: <em>"{results.seoData?.questions?.[0]?.question || 'How to buy?'}"</em> in your ad copy to reduce Customer Acquisition Cost (CAC) by 40%.</p>
                          </div>
-                         <button onClick={() => setActiveModal('analysis')} className="bg-white text-blue-600 px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-50 transition-colors whitespace-nowrap">View detailed analysis →</button>
+                         <button onClick={() => setActiveModal('analysis')} className="bg-[#121212] text-blue-400 px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-500/20 transition-colors whitespace-nowrap">View detailed analysis →</button>
                       </div>
                     </div>
 
@@ -816,7 +816,7 @@ export default function Home() {
                     {/* Section 6: Roadmap */}
                     <div className="pb-16">
                       <h2 className="text-2xl font-bold flex items-center gap-3 mb-8">
-                        <span className="bg-slate-800 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-lg shadow-slate-500/30">6</span> 
+                        <span className="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-lg shadow-slate-500/30">6</span> 
                         Growth Roadmap
                       </h2>
                       <div className="flex flex-col lg:flex-row gap-6 relative">
@@ -824,9 +824,9 @@ export default function Home() {
                         
                         <div className="flex-1 relative z-10">
                           <div className="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center font-bold mb-4 shadow-lg mx-auto"><CheckCircle2 className="h-6 w-6"/></div>
-                          <div className="bg-white border border-slate-200 p-6 rounded-2xl text-center shadow-sm">
+                          <div className="bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm">
                             <h4 className="font-bold text-sm mb-1">Now <span className="text-xs text-slate-400 font-normal block">(0-3 months)</span></h4>
-                            <ul className="text-xs text-slate-500 text-left mt-4 space-y-2">
+                            <ul className="text-xs text-slate-400 text-left mt-4 space-y-2">
                               <li>• Setup B2B Supplier agreements for <strong>{query}</strong>.</li>
                               <li>• Launch MVP landing page.</li>
                             </ul>
@@ -834,10 +834,10 @@ export default function Home() {
                         </div>
 
                         <div className="flex-1 relative z-10">
-                          <div className="w-14 h-14 bg-blue-500 text-white rounded-2xl flex items-center justify-center font-bold mb-4 shadow-lg mx-auto"><MapPin className="h-6 w-6"/></div>
-                          <div className="bg-white border border-slate-200 p-6 rounded-2xl text-center shadow-sm">
+                          <div className="w-14 h-14 bg-blue-500/200 text-white rounded-2xl flex items-center justify-center font-bold mb-4 shadow-lg mx-auto"><MapPin className="h-6 w-6"/></div>
+                          <div className="bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm">
                             <h4 className="font-bold text-sm mb-1">Next <span className="text-xs text-slate-400 font-normal block">(3-6 months)</span></h4>
-                            <ul className="text-xs text-slate-500 text-left mt-4 space-y-2">
+                            <ul className="text-xs text-slate-400 text-left mt-4 space-y-2">
                               <li>• Execute targeted SEO strategy.</li>
                               <li>• Ship 10 units to creators reviewing <strong>{query}</strong>.</li>
                             </ul>
@@ -846,9 +846,9 @@ export default function Home() {
 
                         <div className="flex-1 relative z-10">
                           <div className="w-14 h-14 bg-purple-500 text-white rounded-2xl flex items-center justify-center font-bold mb-4 shadow-lg mx-auto"><TrendingUp className="h-6 w-6"/></div>
-                          <div className="bg-white border border-slate-200 p-6 rounded-2xl text-center shadow-sm">
+                          <div className="bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm">
                             <h4 className="font-bold text-sm mb-1">Later <span className="text-xs text-slate-400 font-normal block">(6-12 months)</span></h4>
-                            <ul className="text-xs text-slate-500 text-left mt-4 space-y-2">
+                            <ul className="text-xs text-slate-400 text-left mt-4 space-y-2">
                               <li>• Scale <strong>{query}</strong> to 300 units/mo.</li>
                               <li>• Hit ${((minPrice - estWholesalePrice) * 300).toLocaleString()} profit target.</li>
                             </ul>

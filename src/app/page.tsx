@@ -15,12 +15,14 @@ export default function Home() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [agentMessage, setAgentMessage] = useState<string | null>(null);
   const [blueprintTab, setBlueprintTab] = useState("executive");
+  const [aiBlueprint, setAiBlueprint] = useState<any>(null);
 
   const handleAnalyze = async () => {
     if (!query) return;
     setLoading(true);
     setResults(null);
     setAgentMessage(null);
+    setAiBlueprint(null);
     setSelectedSeoNode(null);
     try {
       const res = await fetch("/api/analyze", {
@@ -39,7 +41,10 @@ export default function Home() {
         body: JSON.stringify({ query, serpData: data }),
       })
       .then(res => res.json())
-      .then(agentData => setAgentMessage(agentData.response))
+      .then(agentData => {
+        setAgentMessage(agentData.chatSummary);
+        setAiBlueprint(agentData.blueprint);
+      })
       .catch(err => console.error("Agent Engine Offline"));
 
     } catch (error) {
@@ -620,27 +625,34 @@ export default function Home() {
                     </div>
 
                     <div className={`animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-16 ${blueprintTab === "executive" ? "block" : "hidden"}`}>
+                      {!aiBlueprint ? (
+                        <div className="text-center py-24 text-slate-500 font-mono animate-pulse flex flex-col items-center">
+                          <Bot className="h-10 w-10 mb-4 opacity-50" />
+                          OMNISIGHT AI is analyzing live SerpApi Data...
+                        </div>
+                      ) : (
+                        <>
                     {/* Section 1: The Opportunity */}
                     <div>
                       <h2 className="text-2xl font-bold flex items-center gap-3 mb-8">
                         <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-lg shadow-blue-500/30">1</span> 
-                        What is this opportunity?
+                        {aiBlueprint.opportunityTitle}
                       </h2>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="bg-[#121212] p-6 rounded-3xl border border-white/10 shadow-sm hover:shadow-md transition-shadow">
                           <div className="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-2xl flex items-center justify-center mb-6"><Target className="h-6 w-6"/></div>
-                          <h4 className="font-bold text-lg mb-3">Who is it for?</h4>
-                          <p className="text-sm text-slate-400 leading-relaxed">Founders, brands, and retail arbitragers looking to capitalize on the massive demand in the <strong className="text-slate-800">{query.toUpperCase()}</strong> space without holding dead inventory.</p>
+                          <h4 className="font-bold text-lg mb-3 text-white">Market Opportunity</h4>
+                          <p className="text-sm text-slate-400 leading-relaxed">{aiBlueprint.opportunityText}</p>
                         </div>
                         <div className="bg-[#121212] p-6 rounded-3xl border border-white/10 shadow-sm hover:shadow-md transition-shadow">
-                          <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6"><ShieldAlert className="h-6 w-6"/></div>
-                          <h4 className="font-bold text-lg mb-3">What problem does it solve?</h4>
-                          <p className="text-sm text-slate-400 leading-relaxed">Reduces risk by exploiting the pricing gap between {priceData[0]?.name || 'top retailers'}'s <strong className="text-slate-800">${maxPrice.toFixed(2)}</strong> ceiling and your <strong className="text-slate-800">${estWholesalePrice.toFixed(2)}</strong> wholesale floor.</p>
+                          <div className="w-12 h-12 bg-indigo-500/20 text-indigo-400 rounded-2xl flex items-center justify-center mb-6"><ShieldAlert className="h-6 w-6"/></div>
+                          <h4 className="font-bold text-lg mb-3 text-white">The Core Problem</h4>
+                          <p className="text-sm text-slate-400 leading-relaxed">{aiBlueprint.problemText}</p>
                         </div>
                         <div className="bg-[#121212] p-6 rounded-3xl border border-white/10 shadow-sm hover:shadow-md transition-shadow">
-                          <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6"><TrendingUp className="h-6 w-6"/></div>
-                          <h4 className="font-bold text-lg mb-3">The Value</h4>
-                          <p className="text-sm text-slate-400 leading-relaxed">Faster market validation, fewer dead holds, and reduced ad spend by targeting exact <strong className="text-slate-800">{query}</strong> consumer intent gaps.</p>
+                          <div className="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center mb-6"><TrendingUp className="h-6 w-6"/></div>
+                          <h4 className="font-bold text-lg mb-3 text-white">Data Solution</h4>
+                          <p className="text-sm text-slate-400 leading-relaxed">{aiBlueprint.solutionText}</p>
                         </div>
                       </div>
                     </div>
@@ -676,12 +688,18 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-
-                    
-
+                        </>
+                      )}
                     </div>
 
                     <div className={`animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-16 ${blueprintTab === "roadmap" ? "block" : "hidden"}`}>
+                      {!aiBlueprint ? (
+                        <div className="text-center py-24 text-slate-500 font-mono animate-pulse flex flex-col items-center">
+                          <Bot className="h-10 w-10 mb-4 opacity-50" />
+                          OMNISIGHT AI is analyzing live SerpApi Data...
+                        </div>
+                      ) : (
+                        <>
                     {/* Section 3: How It Works */}
                     <div>
                       <h2 className="text-2xl font-bold flex items-center gap-3 mb-8">
@@ -716,12 +734,18 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-
-                    
-
+                        </>
+                      )}
                     </div>
 
                     <div className={`animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-16 ${blueprintTab === "market" ? "block" : "hidden"}`}>
+                      {!aiBlueprint ? (
+                        <div className="text-center py-24 text-slate-500 font-mono animate-pulse flex flex-col items-center">
+                          <Bot className="h-10 w-10 mb-4 opacity-50" />
+                          OMNISIGHT AI is analyzing live SerpApi Data...
+                        </div>
+                      ) : (
+                        <>
                     {/* Section 4: Market & Insights */}
                     <div>
                       <h2 className="text-2xl font-bold flex items-center gap-3 mb-8">
@@ -779,22 +803,19 @@ export default function Home() {
                         <div className="bg-emerald-500/10 p-6 rounded-3xl border border-emerald-500/20">
                            <h4 className="font-bold text-emerald-400 flex items-center gap-2 mb-4"><div className="bg-emerald-500/20 p-1 rounded"><ArrowRight className="h-4 w-4 text-emerald-600"/></div> What's going well</h4>
                            <ul className="space-y-3 text-sm text-emerald-300/80">
-                             <li>• <strong>{query.toUpperCase()}</strong> shows search trend stability.</li>
-                             <li>• Wide retail price variance (${minPrice.toFixed(2)} to ${maxPrice.toFixed(2)}) allows markup flexibility.</li>
+                             {aiBlueprint.goingWell.map((txt: string, i: number) => <li key={i}>• {txt}</li>)}
                            </ul>
                         </div>
                         <div className="bg-amber-500/10 p-6 rounded-3xl border border-amber-500/20">
                            <h4 className="font-bold text-amber-400 flex items-center gap-2 mb-4"><div className="bg-amber-500/20 p-1 rounded"><AlertCircle className="h-4 w-4 text-amber-600"/></div> What needs attention</h4>
                            <ul className="space-y-3 text-sm text-amber-300/80">
-                             <li>• Heavy saturation on generic <strong>{query}</strong> keywords.</li>
-                             <li>• {results.seoData?.searches?.length || 5} related search clusters dominate the ad space.</li>
+                             {aiBlueprint.needsAttention.map((txt: string, i: number) => <li key={i}>• {txt}</li>)}
                            </ul>
                         </div>
                         <div className="bg-purple-500/10 p-6 rounded-3xl border border-purple-500/20">
                            <h4 className="font-bold text-purple-400 flex items-center gap-2 mb-4"><div className="bg-purple-500/20 p-1 rounded"><Zap className="h-4 w-4 text-purple-600"/></div> The "Why?"</h4>
                            <ul className="space-y-3 text-sm text-purple-300/80">
-                             <li>• Consumers are actively asking <em>"{results.seoData?.questions?.[0]?.question || query}"</em>.</li>
-                             <li>• Legacy brands are ignoring these long-tail intent queries.</li>
+                             {aiBlueprint.theWhy.map((txt: string, i: number) => <li key={i}>• {txt}</li>)}
                            </ul>
                         </div>
                       </div>
@@ -802,17 +823,23 @@ export default function Home() {
                       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 rounded-3xl text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
                          <div>
                             <h4 className="font-bold text-lg flex items-center gap-2 mb-2"><Lightbulb className="h-5 w-5 text-yellow-300"/> AI Recommendation</h4>
-                            <p className="text-blue-100 text-sm">Target the exact question: <em>"{results.seoData?.questions?.[0]?.question || 'How to buy?'}"</em> in your ad copy to reduce Customer Acquisition Cost (CAC) by 40%.</p>
+                            <p className="text-blue-100 text-sm">{aiBlueprint.recommendation}</p>
                          </div>
                          <button onClick={() => setActiveModal('analysis')} className="bg-[#121212] text-blue-400 px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-500/20 transition-colors whitespace-nowrap">View detailed analysis →</button>
                       </div>
                     </div>
-
-                    
-
+                        </>
+                      )}
                     </div>
 
                     <div className={`animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-16 ${blueprintTab === "roadmap" ? "block" : "hidden"}`}>
+                      {!aiBlueprint ? (
+                        <div className="text-center py-10 text-slate-500 font-mono animate-pulse flex flex-col items-center">
+                          <Bot className="h-10 w-10 mb-4 opacity-50" />
+                          Generating Growth Roadmap...
+                        </div>
+                      ) : (
+                        <>
                     {/* Section 6: Roadmap */}
                     <div className="pb-16">
                       <h2 className="text-2xl font-bold flex items-center gap-3 mb-8">
@@ -825,21 +852,19 @@ export default function Home() {
                         <div className="flex-1 relative z-10">
                           <div className="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center font-bold mb-4 shadow-lg mx-auto"><CheckCircle2 className="h-6 w-6"/></div>
                           <div className="bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm">
-                            <h4 className="font-bold text-sm mb-1">Now <span className="text-xs text-slate-400 font-normal block">(0-3 months)</span></h4>
+                            <h4 className="font-bold text-sm mb-1 text-white">Now <span className="text-xs text-slate-400 font-normal block mt-1">(0-3 months)</span></h4>
                             <ul className="text-xs text-slate-400 text-left mt-4 space-y-2">
-                              <li>• Setup B2B Supplier agreements for <strong>{query}</strong>.</li>
-                              <li>• Launch MVP landing page.</li>
+                              {aiBlueprint.phase1.map((txt: string, i: number) => <li key={i}>• {txt}</li>)}
                             </ul>
                           </div>
                         </div>
 
                         <div className="flex-1 relative z-10">
-                          <div className="w-14 h-14 bg-blue-500/200 text-white rounded-2xl flex items-center justify-center font-bold mb-4 shadow-lg mx-auto"><MapPin className="h-6 w-6"/></div>
+                          <div className="w-14 h-14 bg-blue-600 text-white rounded-2xl flex items-center justify-center font-bold mb-4 shadow-lg mx-auto"><MapPin className="h-6 w-6"/></div>
                           <div className="bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm">
-                            <h4 className="font-bold text-sm mb-1">Next <span className="text-xs text-slate-400 font-normal block">(3-6 months)</span></h4>
+                            <h4 className="font-bold text-sm mb-1 text-white">Next <span className="text-xs text-slate-400 font-normal block mt-1">(3-6 months)</span></h4>
                             <ul className="text-xs text-slate-400 text-left mt-4 space-y-2">
-                              <li>• Execute targeted SEO strategy.</li>
-                              <li>• Ship 10 units to creators reviewing <strong>{query}</strong>.</li>
+                              {aiBlueprint.phase2.map((txt: string, i: number) => <li key={i}>• {txt}</li>)}
                             </ul>
                           </div>
                         </div>
@@ -847,18 +872,18 @@ export default function Home() {
                         <div className="flex-1 relative z-10">
                           <div className="w-14 h-14 bg-purple-500 text-white rounded-2xl flex items-center justify-center font-bold mb-4 shadow-lg mx-auto"><TrendingUp className="h-6 w-6"/></div>
                           <div className="bg-[#121212] border border-white/10 p-6 rounded-2xl text-center shadow-sm">
-                            <h4 className="font-bold text-sm mb-1">Later <span className="text-xs text-slate-400 font-normal block">(6-12 months)</span></h4>
+                            <h4 className="font-bold text-sm mb-1 text-white">Later <span className="text-xs text-slate-400 font-normal block mt-1">(6-12 months)</span></h4>
                             <ul className="text-xs text-slate-400 text-left mt-4 space-y-2">
-                              <li>• Scale <strong>{query}</strong> to 300 units/mo.</li>
-                              <li>• Hit ${((minPrice - estWholesalePrice) * 300).toLocaleString()} profit target.</li>
+                              {aiBlueprint.phase3.map((txt: string, i: number) => <li key={i}>• {txt}</li>)}
                             </ul>
                           </div>
                         </div>
 
                       </div>
                     </div>
+                        </>
+                      )}
                     </div>
-
                   </div>
                 </div>
               )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, TrendingUp, DollarSign, Newspaper, PlayCircle, ShieldAlert, Activity, Bot, LayoutDashboard, Network, MonitorPlay, LogOut, ChevronRight, Briefcase, Download, Settings, Code, ArrowRight, Rocket, Mail, ExternalLink, X, CheckCircle2, AlertCircle, Lightbulb, Target, Users, MapPin, Zap } from "lucide-react";
 import { ReactFlow, Controls, Background } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
@@ -15,6 +15,21 @@ export default function Home() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [agentMessage, setAgentMessage] = useState<string | null>(null);
   const [blueprintTab, setBlueprintTab] = useState("executive");
+  
+  useEffect(() => {
+    if (activeModal === 'export') {
+      const timer = setTimeout(() => {
+        const link = document.createElement('a');
+        link.href = '/OmniSight_Hackathon_Report.pdf';
+        link.download = 'OmniSight_Executive_Report.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setActiveModal(null);
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [activeModal]);
   const [blueprintLoading, setBlueprintLoading] = useState(false);
   const [aiBlueprint, setAiBlueprint] = useState<any>(null);
 

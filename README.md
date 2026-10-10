@@ -10,6 +10,14 @@
 
 **Autonomous market intelligence: 5 SerpApi engines + Google Gemini, one search box.**
 
+<br/>
+
+<a href="https://drive.google.com/file/d/1VGOljxomqAJaTvBPez9y88Hh0OBGq8T8/view?usp=sharing" target="_blank">
+  <img src="https://img.shields.io/badge/▶_Watch_Project_Demo-Google_Drive-EA4335?style=for-the-badge&logo=googledrive&logoColor=white" alt="Watch Project Demo Video"/>
+</a>
+
+<br/><br/>
+
 Type a product or market. OmniSight queries five SerpApi engines in parallel, builds charts and an SEO graph from the results, and has Gemini write a startup blueprint you can question in a live chat.
 
 </div>
@@ -394,6 +402,7 @@ npm run dev      # http://localhost:3000
 
 | File | Description |
 |---|---|
+| [**Demo Video Walkthrough**](https://drive.google.com/file/d/1VGOljxomqAJaTvBPez9y88Hh0OBGq8T8/view?usp=sharing) | Live product walkthrough & presentation video on Google Drive |
 | [`docs/OmniSight_Hackathon_Report.pdf`](docs/OmniSight_Hackathon_Report.pdf) | Full project documentation: every file, function, state variable, data schema, and formula |
 | [`docs/OmniSight_Pitch_Deck.pptx`](docs/OmniSight_Pitch_Deck.pptx) | 10-slide pitch deck with speaker notes |
 

@@ -5,6 +5,7 @@
 | **Project** | OmniSight: Autonomous Market Intelligence Platform |
 | **Event** | SerpApi India Hackathon 2026 |
 | **Repository** | https://github.com/shrikargs7-cloud/OmniSight |
+| **Demo Video** | [Watch Walkthrough on Google Drive](https://drive.google.com/file/d/1VGOljxomqAJaTvBPez9y88Hh0OBGq8T8/view?usp=sharing) |
 | **Document type** | Project Documentation / Software Design Document |
 | **Version** | 1.0 (10 October 2026) |
 

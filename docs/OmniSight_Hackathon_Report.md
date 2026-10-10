@@ -22,8 +22,9 @@ Instead of providing the user with raw data tables, OmniSight interprets the dat
 
 **Key Differentiators:**
 1. **Agentic Autonomy:** The user does not need to analyze the data. The AI acts as a dedicated Market Strategist, writing out a 12-month execution phase plan based entirely on the live SerpApi metrics.
-2. **Beautiful, Dark-Mode SaaS UI:** OmniSight steps away from the "hackathon toy" aesthetic and utilizes a premium, professional interface designed for high-value enterprise users.
-3. **Massive Concurrency:** We don't just query Google once. We hit 5 distinct Google ecosystems simultaneously to paint a holistic picture of the market.
+2. **Interactive Live Chat:** Users aren't just reading static reports; they can actively converse with the AI agent in the sidebar, interrogating the market data to refine their business strategies.
+3. **Beautiful, Dark-Mode SaaS UI:** OmniSight steps away from the "hackathon toy" aesthetic and utilizes a premium, professional interface designed for high-value enterprise users.
+4. **Massive Concurrency:** We don't just query Google once. We hit 5 distinct Google ecosystems simultaneously to paint a holistic picture of the market.
 
 ## 4. Technical Architecture & Integrations
 
@@ -42,11 +43,10 @@ The core engine runs on a custom Node.js `/api/analyze` route. When a user submi
 5. **`youtube`**: Scrapes video IDs to natively embed high-performing media reviews into the dashboard.
 
 ### Generative AI Pipeline (Google Gemini)
-Once the SerpApi payload is successfully aggregated, the raw JSON is compressed and passed to a secondary serverless endpoint (`/api/blueprint`). 
-- **Prompt Engineering:** We built a hyper-specific mega-prompt instructing Gemini 1.5 Flash to adopt the persona of an elite market strategist.
-- **Strict Schema Enforcement:** Instead of returning messy Markdown, the LLM is strictly constrained to output a deeply nested JSON object.
-- **Dynamic UI Mapping:** The frontend safely parses this JSON and maps it directly into the UI components—meaning the "Executive Summary", "Market Gap Analysis", and "Roadmap" tabs are written by the AI on the fly. 
-- *Fallback Mechanism:* OmniSight implements a robust `try/catch` fallback. If an API key is invalid or rate-limited during judging, the system gracefully catches the error and serves a simulated intelligence payload so the UI never crashes.
+Once the SerpApi payload is successfully aggregated, the raw JSON is compressed and passed to our serverless endpoints (`/api/blueprint` and `/api/chat`). 
+- **Dynamic Blueprints:** We built a hyper-specific mega-prompt instructing Gemini 1.5 Flash to output a deeply nested JSON object. The frontend safely parses this JSON and maps it directly into the UI components (Executive Summary, Market Gap Analysis, and Visual Roadmap).
+- **Interactive Conversational AI:** The `/api/chat` route processes the user's live queries against the active SerpApi context, allowing them to ask follow-up questions about the market data in real-time.
+- *Fallback Mechanism:* OmniSight implements a robust `try/catch` fallback. If an API key is invalid or rate-limited during judging, the system gracefully catches the error and serves a simulated intelligence payload so the UI never crashes and the chat remains functional.
 
 ## 5. Business Viability & Market Opportunity
 

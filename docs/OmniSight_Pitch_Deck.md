@@ -32,10 +32,10 @@
 - Three floating badges: 
   1. ⚡️ Instant Aggregation 
   2. 🧠 Agentic AI Synthesis 
-  3. 📈 Predictive Roadmaps
+  3. 🗣️ Interactive AI Chat
 
 **Speaker Script:**
-> "Enter OmniSight. A unified intelligence command center that transforms a single keyword into a comprehensive, multi-phase startup blueprint in under 3 seconds. We don't just show you data; our autonomous AI agent *interprets* it and builds a strategy for you."
+> "Enter OmniSight. A unified intelligence command center that transforms a single keyword into a comprehensive, multi-phase startup blueprint in under 3 seconds. We don't just show you data; our autonomous AI agent *interprets* it, builds a strategy for you, and allows you to chat with the data in real-time."
 
 ---
 
@@ -63,13 +63,12 @@
 
 ---
 
-## Slide 6: Product Demo - The Dashboard 
+## Slide 6: Product Demo - The Dashboard & Interactive Agent
 **Visual:**
-- GIF or Video embedded showing the **Market Radar** and **Interactive SEO Threat Web**.
-- Highlight the `ReactFlow` graph.
+- GIF or Video embedded showing the **Market Radar** and **Interactive Live Agent Sidebar**.
 
 **Speaker Script:**
-> "Let's look at the product. The dashboard instantly generates an Interactive SEO Threat Web—a visual mind-map built from live 'People Also Ask' data. Click any node, and OmniSight simulates enterprise metrics like Keyword Difficulty and CPC, allowing you to bypass saturated head-keywords and target lucrative long-tail gaps."
+> "Let's look at the product. The dashboard instantly generates an Interactive SEO Threat Web based on live consumer intent. But the magic happens in our Live Agent Sidebar. Not only does it stream news and calculate arbitrage, it features a fully interactive conversational AI. You can literally chat with the market data, asking the agent to clarify specific pricing gaps or SEO strategies in real-time."
 
 ---
 
@@ -78,7 +77,7 @@
 - Screenshot of the "Startup Blueprint" tab featuring the "Executive Summary", "Market Gap Analysis", and "Visual Roadmap".
 
 **Speaker Script:**
-> "And here is our crown jewel: The Autonomous AI Blueprint. Because we enforced strict JSON generation, Gemini actually writes the content for this beautiful tabbed interface. It tells you exactly what's going well, what needs attention, and gives you a 12-month execution phase plan—all based entirely on the live search data pulled milliseconds prior."
+> "And here is our crown jewel: The Autonomous AI Blueprint. Because we enforced strict JSON generation, Gemini writes the content for this beautiful tabbed interface. It tells you exactly what's going well, what needs attention, and gives you a 12-month execution phase plan—and if you want the mathematical rationale behind any recommendation, you can click the deep-dive button to reveal exactly how it lowered your Customer Acquisition Cost."
 
 ---
 

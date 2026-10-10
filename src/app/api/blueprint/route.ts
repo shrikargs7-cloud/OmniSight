@@ -41,24 +41,26 @@ export async function POST(req: Request) {
     
     RETURN ONLY JSON:`;
 
-    const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
-      })
-    });
-    
-    const geminiData = await geminiRes.json();
-    let text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    
-    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
-    if (!text) throw new Error("Gemini returned empty response. API Key might be invalid: " + JSON.stringify(geminiData));
     let parsedJson;
+    
     try {
+      const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }]
+        })
+      });
+      
+      const geminiData = await geminiRes.json();
+      let text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "";
+      text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+      
+      if (!text) throw new Error("Empty text from Gemini. API Key might be invalid.");
+      
       parsedJson = JSON.parse(text);
     } catch (e) {
-      console.warn("Fallback triggered due to invalid Gemini response:", geminiData);
+      console.warn("Fallback triggered due to invalid Gemini response:", e);
       parsedJson = {
         opportunityTitle: "Opportunity Validated",
         opportunityText: "Market indicates strong arbitrage potential with significant wholesale padding.",

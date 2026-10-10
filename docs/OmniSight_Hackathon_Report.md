@@ -307,6 +307,7 @@ All three routes call:
 | `POST /api/agent` | `{ "query", "serpData" }` | `{ "response": "..." }` | `{ response: "Fatal Error..." }` 500 |
 | `POST /api/blueprint` | `{ "query", "serpData" }` | `AIBlueprint` (200, live or fallback) | `{ error }` 400 if no key, 500 on bad request |
 | `POST /api/chat` | `{ "message", "serpData" }` | `{ "response": "..." }` | `{ response: "Fatal Error..." }` 500 |
+| `POST /api/export-report` | `{ "query", "results", "aiBlueprint", "avgRetailPrice", "estWholesalePrice", "minPrice", "maxPrice" }` | Binary PDF stream (`application/pdf`) | `{ error }` 500 on compilation failure |
 
 ---
 
@@ -329,6 +330,8 @@ All state lives in the `Home` component in `page.tsx`.
 | `chatInput` | `string` | `""` | Chat text box |
 | `isChatting` | `boolean` | `false` | Chat request in progress |
 | `userChatHistory` | `ChatMessage[]` | `[]` | User questions and AI answers |
+| `isExporting` | `boolean` | `false` | Generating and streaming the dynamic executive PDF report |
+| `exportError` | `string | null` | `null` | Any export-related error message |
 
 ---
 
@@ -340,7 +343,8 @@ All state lives in the `Home` component in `page.tsx`.
 | `handleAnalyze()` | "Execute" button | Clears old state → calls `/api/analyze` → stores `results` → fires `/api/agent` and `/api/blueprint` in the background (not awaited) |
 | `handleChatSubmit(e)` | Chat form submit | Adds user message → calls `/api/chat` with `results` → adds AI answer |
 | `onNodeClick(_, node)` | Click on SEO node | Computes display metrics for that node and stores them in `selectedSeoNode` |
-| `useEffect` on `activeModal` | `activeModal === "export"` | After 2.5 s, downloads `/OmniSight_Hackathon_Report.pdf` and closes the modal |
+| `triggerExportReport()` | "Download Executive PDF" | POSTs live product metrics to `/api/export-report`, receives server-rendered PDF buffer, and triggers download |
+| `triggerPrintReport()` | "Print / Save via Browser" | Opens dedicated print window containing full formatted dossier of the browsed product and invokes `window.print()` |
 
 ### 11.2 Data transforms
 **`getPriceData()`** — strips non-numeric characters from each `price` string (`"$1,299.00"` → `1299.00`), drops items priced at 0, shortens retailer names longer than 10 characters, keeps the first 8.
@@ -454,8 +458,9 @@ For transparency, these values are **not** live data:
 - **SEO node volume, CPC, and difficulty** are calculated from label length to illustrate the interface; they are not real keyword-planner numbers.
 - **Market channel pie chart** and the Margins/Competition radar axes use fixed values.
 - **Trend forecast** is a simple linear extrapolation, not a statistical model.
-- **Export Report** downloads this pre-built document rather than a per-search report.
 - Region and language in Settings are fixed to `gl=us`, `hl=en` in the engine calls.
+
+*(Note: The "Export Report" feature dynamically compiles an executive market dossier specific to the searched product via `/api/export-report`, incorporating live retail pricing, press sentiment, consumer search intent, and Gemini strategy matrices.)*
 
 Everything else — prices, retailers, headlines, Trends timeline, YouTube videos, "People Also Ask" questions, related searches, and organic rankings — comes live from SerpApi on every search.
 

@@ -307,7 +307,7 @@ graph TD
 | **Media Monitor** | Embedded YouTube review videos and news | YouTube, News |
 | **B2B Wholesale Hub** | Retailer cards with live retail price and estimated bulk price | Shopping |
 | **Startup Blueprint** | Executive Summary · Market Gap Analysis · Visual Roadmap, plus "View detailed analysis" | Gemini (from SerpApi data) |
-| **Export Report** | Downloads the project PDF | Static file |
+| **Export Report** | Compiles & downloads a multi-page Executive Market Report for the browsed product via `/api/export-report`, with browser print preview | Dynamic (Puppeteer + SerpApi + Gemini) |
 | **API Access / Settings** | Demo API card; region and language selectors | UI only |
 
 ---
@@ -350,6 +350,7 @@ supply-chain-sleuth/
 | `POST /api/agent` | `{ "query", "serpData" }` | `{ "response": "..." }` |
 | `POST /api/blueprint` | `{ "query", "serpData" }` | `{ opportunityTitle, opportunityText, problemText, solutionText, goingWell[], needsAttention[], theWhy[], recommendation, detailedAnalysis, phase1[], phase2[], phase3[] }` |
 | `POST /api/chat` | `{ "message", "serpData" }` | `{ "response": "..." }` |
+| `POST /api/export-report` | `{ "query", "results", "aiBlueprint", "avgRetailPrice", "estWholesalePrice", "minPrice", "maxPrice" }` | Binary PDF stream (`application/pdf`) |
 
 ---
 

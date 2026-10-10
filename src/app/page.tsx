@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, TrendingUp, DollarSign, Newspaper, PlayCircle, ShieldAlert, Activity, Bot, LayoutDashboard, Network, MonitorPlay, LogOut, ChevronRight, Briefcase, Download, Settings, Code, ArrowRight, Rocket, Mail, ExternalLink, X, CheckCircle2, AlertCircle, Lightbulb, Target, Users, MapPin, Zap } from "lucide-react";
+import { Search, TrendingUp, DollarSign, Newspaper, PlayCircle, ShieldAlert, Activity, Bot, LayoutDashboard, Network, MonitorPlay, LogOut, ChevronRight, Briefcase, Download, Settings, Code, ArrowRight, Rocket, Mail, ExternalLink, X, CheckCircle2, AlertCircle, Lightbulb, Target, Users, MapPin, Zap, Printer, FileText } from "lucide-react";
 import { ReactFlow, Controls, Background } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid, PieChart, Pie, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from "recharts";
@@ -19,20 +19,8 @@ export default function Home() {
   const [isChatting, setIsChatting] = useState(false);
   const [userChatHistory, setUserChatHistory] = useState<any[]>([]);
   
-  useEffect(() => {
-    if (activeModal === 'export') {
-      const timer = setTimeout(() => {
-        const link = document.createElement('a');
-        link.href = '/OmniSight_Hackathon_Report.pdf';
-        link.download = 'OmniSight_Executive_Report.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        setActiveModal(null);
-      }, 2500);
-      return () => clearTimeout(timer);
-    }
-  }, [activeModal]);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
   const [blueprintLoading, setBlueprintLoading] = useState(false);
   const [aiBlueprint, setAiBlueprint] = useState<any>(null);
 
@@ -156,7 +144,7 @@ export default function Home() {
 
   const getSeoGraph = () => {
     if (!results?.seoData) return { nodes: [], edges: [] };
-    const nodes = [
+    const nodes: any[] = [
       { id: "root", position: { x: 400, y: 300 }, data: { label: query.toUpperCase(), type: 'root' }, style: { background: "#0ea5e9", color: "#fff", fontWeight: "900", border: "none", borderRadius: "8px", padding: "10px 20px" } }
     ];
     const edges: any[] = [];
@@ -190,10 +178,10 @@ export default function Home() {
   const seoGraph = getSeoGraph();
 
   // Financials & Chart Data
-  const avgRetailPrice = priceData.length > 0 ? (priceData.reduce((acc, curr) => acc + curr.price, 0) / priceData.length) : 0;
+  const avgRetailPrice = priceData.length > 0 ? (priceData.reduce((acc: number, curr: any) => acc + curr.price, 0) / priceData.length) : 0;
   const estWholesalePrice = avgRetailPrice * 0.35;
-  const minPrice = priceData.length > 0 ? Math.min(...priceData.map(p => p.price)) : 0;
-  const maxPrice = priceData.length > 0 ? Math.max(...priceData.map(p => p.price)) : 0;
+  const minPrice = priceData.length > 0 ? Math.min(...priceData.map((p: any) => p.price)) : 0;
+  const maxPrice = priceData.length > 0 ? Math.max(...priceData.map((p: any) => p.price)) : 0;
   
   const marketPieData = [
     { name: 'D2C E-Commerce', value: 42, fill: '#3b82f6' },
@@ -227,6 +215,151 @@ export default function Home() {
      }
   }
 
+  const triggerExportReport = async () => {
+    if (!results) return;
+    setIsExporting(true);
+    setExportError(null);
+    try {
+      const res = await fetch("/api/export-report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: query || results.query || "Market",
+          results,
+          aiBlueprint,
+          avgRetailPrice,
+          estWholesalePrice,
+          minPrice,
+          maxPrice,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Server error while generating executive PDF");
+      }
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const cleanName = (query || results.query || "Product").replace(/[^a-zA-Z0-9_-]/g, "_");
+      a.download = `OmniSight_${cleanName}_Market_Report.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      setTimeout(() => setActiveModal(null), 1200);
+    } catch (err: any) {
+      console.error(err);
+      setExportError(err?.message || "Failed to generate report PDF.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const triggerPrintReport = () => {
+    if (!results) return;
+    const shopping = results.marketPricing || [];
+    const news = results.sentimentNews || [];
+    const questions = results.seoData?.questions || [];
+    const targetQ = (query || results.query || "MARKET").toUpperCase();
+    const dateStr = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    
+    const printHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>OmniSight Market Intelligence Dossier - ${targetQ}</title>
+          <style>
+            @page { size: A4; margin: 15mm; }
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1e293b; line-height: 1.5; font-size: 11px; padding: 10px; }
+            h1 { font-size: 20px; color: #0f172a; border-bottom: 2px solid #4f46e5; padding-bottom: 6px; margin: 0 0 4px 0; }
+            h2 { font-size: 12px; color: #1e1b4b; border-left: 3px solid #4f46e5; padding-left: 6px; margin: 16px 0 8px 0; text-transform: uppercase; }
+            .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0; }
+            .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; }
+            .card-label { font-size: 8.5px; color: #64748b; font-weight: 700; text-transform: uppercase; }
+            .card-val { font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 10px; }
+            th, td { border: 1px solid #e2e8f0; padding: 5px 6px; text-align: left; }
+            th { background: #f1f5f9; color: #334155; }
+            ul { margin: 4px 0; padding-left: 16px; }
+            li { margin-bottom: 2px; }
+            .box { background: #f1f5f9; border-left: 3px solid #4f46e5; padding: 8px 10px; margin: 8px 0; border-radius: 0 4px 4px 0; }
+          </style>
+        </head>
+        <body>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid #4f46e5; padding-bottom:8px; margin-bottom:12px;">
+            <div>
+              <div style="font-size:18px; font-weight:900; color:#0f172a;">OMNI<span style="color:#4f46e5;">SIGHT</span></div>
+              <div style="font-size:9px; color:#64748b; font-weight:600;">AUTONOMOUS PRODUCT INTELLIGENCE DOSSIER</div>
+            </div>
+            <div style="text-align:right; font-size:8.5px; color:#64748b;">
+              <div><strong>Target:</strong> ${targetQ}</div>
+              <div><strong>Date:</strong> ${dateStr}</div>
+              <div><strong>Data:</strong> SerpApi (5 Engines) + Gemini</div>
+            </div>
+          </div>
+
+          <div class="box">
+            <div style="font-weight:700; font-size:11px; color:#0f172a;">${aiBlueprint?.opportunityTitle || `Opportunity Assessment: ${targetQ}`}</div>
+            <div style="color:#334155; margin-top:2px;">${aiBlueprint?.opportunityText || 'Arbitrage economics validated with significant wholesale markup buffer.'}</div>
+          </div>
+
+          <h2>1. Pricing Benchmarks & Arbitrage Spread (SerpApi Google Shopping)</h2>
+          <div class="grid">
+            <div class="card"><div class="card-label">Retail Ceiling</div><div class="card-val" style="color:#4f46e5;">$${maxPrice > 0 ? maxPrice.toFixed(2) : 'N/A'}</div></div>
+            <div class="card"><div class="card-label">Average Retail</div><div class="card-val">$${avgRetailPrice > 0 ? avgRetailPrice.toFixed(2) : 'N/A'}</div></div>
+            <div class="card"><div class="card-label">Estimated Wholesale Floor</div><div class="card-val" style="color:#059669;">$${estWholesalePrice > 0 ? estWholesalePrice.toFixed(2) : 'N/A'}</div></div>
+            <div class="card"><div class="card-label">Gross Margin Cushion</div><div class="card-val" style="color:#059669;">~65% Margin</div></div>
+          </div>
+
+          ${shopping.length > 0 ? `
+          <table>
+            <thead><tr><th>Product Title</th><th>Retail Channel</th><th>Retail Price</th><th>Wholesale Target (35%)</th></tr></thead>
+            <tbody>
+              ${shopping.slice(0, 6).map((p: any) => {
+                const rawPrice = parseFloat(p.price?.replace(/[^0-9.]/g, '') || '0');
+                const bulk = rawPrice > 0 ? (rawPrice * 0.35).toFixed(2) : 'N/A';
+                return `<tr><td><strong>${p.title || targetQ}</strong></td><td>${p.source || 'Shopping Merchant'}</td><td><strong>${p.price || 'N/A'}</strong></td><td style="color:#059669; font-weight:700;">$${bulk}</td></tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+          ` : ''}
+
+          <h2>2. Consumer Questions & Intent Gaps (SerpApi Organic Search)</h2>
+          ${questions.length > 0 ? `
+            <ul>${questions.slice(0, 5).map((q: any) => `<li>${q.question || q}</li>`).join('')}</ul>
+          ` : '<p style="color:#64748b;">No indexed consumer questions.</p>'}
+
+          <h2>3. Press & Brand Safety Sentiment (SerpApi Google News)</h2>
+          ${news.length > 0 ? `
+            <ul>${news.slice(0, 3).map((n: any) => `<li><strong>${n.title}</strong> — <em>${n.source?.name || n.source || 'Google News'}</em></li>`).join('')}</ul>
+          ` : '<p style="color:#64748b;">No recent press alerts.</p>'}
+
+          <h2>4. AI Strategic Recommendation & Rationale (Google Gemini)</h2>
+          <div class="box">
+            <div style="font-weight:700; color:#1e1b4b;">💡 Recommendation: ${aiBlueprint?.recommendation || 'Target specific long-tail questions in ad copy to reduce CAC.'}</div>
+            <div style="font-size:10px; color:#475569; margin-top:4px;">${aiBlueprint?.detailedAnalysis || 'Deploying capital into long-tail buyer search clusters bypasses high-cost bidding wars with legacy competitors.'}</div>
+          </div>
+
+          <h2>5. Execution Roadmap</h2>
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px;">
+            <div class="card"><div class="card-label" style="color:#4f46e5;">Phase 1: Now (0-3 Mo)</div><ul>${(aiBlueprint?.phase1 || ['Lock in B2B supplier agreements.', 'Deploy MVP landing page.']).map((t: string) => `<li>${t}</li>`).join('')}</ul></div>
+            <div class="card"><div class="card-label" style="color:#4f46e5;">Phase 2: Next (3-6 Mo)</div><ul>${(aiBlueprint?.phase2 || ['Execute targeted SEO strategy.', 'Send units to micro-influencers.']).map((t: string) => `<li>${t}</li>`).join('')}</ul></div>
+            <div class="card"><div class="card-label" style="color:#4f46e5;">Phase 3: Scale (6-12 Mo)</div><ul>${(aiBlueprint?.phase3 || ['Scale inventory to 300+ units/mo.', 'Expand to multi-channel retail.']).map((t: string) => `<li>${t}</li>`).join('')}</ul></div>
+          </div>
+        </body>
+      </html>
+    `;
+    const w = window.open('', '_blank');
+    if (w) {
+      w.document.write(printHtml);
+      w.document.close();
+      w.focus();
+      setTimeout(() => w.print(), 300);
+    }
+  };
+
   return (
     <div className="flex h-screen bg-[#050505] text-slate-300 font-sans overflow-hidden selection:bg-indigo-900">
       
@@ -237,13 +370,89 @@ export default function Home() {
             <button onClick={() => setActiveModal(null)} className="absolute top-4 right-4 text-slate-500 hover:text-white"><X className="h-5 w-5" /></button>
             
             {activeModal === 'export' && (
-              <div className="text-center space-y-4">
-                <Download className="h-12 w-12 text-indigo-500 mx-auto mb-4 animate-bounce" />
-                <h3 className="text-xl font-bold text-white">Generating PDF Report</h3>
-                <p className="text-sm text-slate-400">Compiling SerpApi data, market arbitrage, and SEO threat models into an executive summary...</p>
-                <div className="w-full bg-white/5 rounded-full h-2 mt-4 overflow-hidden">
-                  <div className="bg-indigo-500 h-2 rounded-full w-full animate-[pulse_2s_ease-in-out_infinite]"></div>
-                </div>
+              <div className="space-y-4">
+                {!results ? (
+                  <div className="text-center space-y-3 py-2">
+                    <AlertCircle className="h-10 w-10 text-amber-400 mx-auto" />
+                    <h3 className="text-lg font-bold text-white">No Market Data Loaded</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Please enter a product or market query above (e.g. <span className="text-indigo-400 font-mono">"trimmers"</span>, <span className="text-indigo-400 font-mono">"electric scooters"</span>) and click <span className="text-indigo-400 font-bold">EXECUTE</span> first to generate live market data before exporting.
+                    </p>
+                    <button 
+                      onClick={() => setActiveModal(null)} 
+                      className="w-full bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-xl text-xs transition-colors mt-2"
+                    >
+                      Close
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 border-b border-white/10 pb-3">
+                      <div className="p-2 rounded-lg bg-indigo-500/20 text-indigo-400">
+                        <FileText className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-white">Executive Market Report</h3>
+                        <p className="text-[10px] text-indigo-300 font-mono uppercase tracking-wider">
+                          Target: {query.toUpperCase() || results.query?.toUpperCase()}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Exporting complete intelligence dossier compiled from 5 SerpApi engines (Google Shopping, News, Trends, Organic, YouTube) &amp; Gemini strategy.
+                    </p>
+
+                    <div className="grid grid-cols-3 gap-2 bg-black/40 border border-white/5 p-2.5 rounded-xl text-center">
+                      <div>
+                        <span className="text-[9px] text-slate-500 uppercase block font-semibold">Ceiling</span>
+                        <strong className="text-indigo-400 text-sm">${maxPrice > 0 ? maxPrice.toFixed(0) : 'N/A'}</strong>
+                      </div>
+                      <div>
+                        <span className="text-[9px] text-slate-500 uppercase block font-semibold">Wholesale Floor</span>
+                        <strong className="text-emerald-400 text-sm">${estWholesalePrice > 0 ? estWholesalePrice.toFixed(0) : 'N/A'}</strong>
+                      </div>
+                      <div>
+                        <span className="text-[9px] text-slate-500 uppercase block font-semibold">Margin Buffer</span>
+                        <strong className="text-emerald-400 text-sm">~65%</strong>
+                      </div>
+                    </div>
+
+                    {exportError && (
+                      <p className="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2 rounded-lg font-mono">
+                        {exportError}
+                      </p>
+                    )}
+
+                    <div className="space-y-2 pt-1">
+                      <button 
+                        onClick={triggerExportReport} 
+                        disabled={isExporting} 
+                        className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 disabled:opacity-60"
+                      >
+                        {isExporting ? (
+                          <>
+                            <Activity className="h-4 w-4 animate-spin text-white" />
+                            <span>Compiling PDF Dossier...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Download className="h-4 w-4" />
+                            <span>Download Executive PDF Report</span>
+                          </>
+                        )}
+                      </button>
+
+                      <button 
+                        onClick={triggerPrintReport} 
+                        className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 font-medium py-2 rounded-xl text-xs transition-all flex items-center justify-center gap-2"
+                      >
+                        <Printer className="h-3.5 w-3.5" />
+                        <span>Print / Save via Browser</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 

@@ -1,5 +1,6 @@
 <div align="center">
   <img src="https://img.shields.io/badge/SerpApi_India_Hackathon_2026-Grand_Prize_Contender-8b5cf6?style=for-the-badge&logo=google" alt="Hackathon Badge"/>
+  <img src="https://img.shields.io/badge/Powered_by-SerpApi-FFCC00?style=for-the-badge&logo=api" alt="SerpApi Badge"/>
   <img src="https://img.shields.io/badge/Powered_by-Google_Gemini-4285F4?style=for-the-badge&logo=google" alt="Gemini Badge"/>
   <img src="https://img.shields.io/badge/Next.js_14-App_Router-000000?style=for-the-badge&logo=next.js" alt="Next.js Badge"/>
   <br/><br/>
@@ -18,9 +19,37 @@ The era of manual market research is dead. Modern dropshippers, SaaS founders, a
 
 ---
 
+## 🌩️ The Power of SerpApi: A 5-Engine Orchestration
+
+At the heart of OmniSight is a master orchestrator that pushes **SerpApi** to its absolute concurrent limits. By leveraging `Promise.all`, OmniSight executes a parallel data-harvesting sequence across 5 unique search engines simultaneously. 
+
+Without SerpApi, gathering this scale of real-time data would take hours of complex, fragile scraping. With SerpApi, OmniSight acquires a 360-degree view of any global market in under 2 seconds.
+
+### 1. Google Trends API (`engine: "google_trends"`)
+*   **The Goal:** Macro-Market Viability & Forecasting.
+*   **How OmniSight Uses It:** We pass `date: "all"` to SerpApi to pull historical trend data spanning back to 2004. OmniSight maps this massive timeline into a fluid `Recharts` visualization, allowing the LLM to analyze the slope of the trend to determine if a market is a fad (e.g., fidget spinners) or a stable, growing industry.
+
+### 2. Google Shopping API (`engine: "google_shopping"`)
+*   **The Goal:** Retail Ceilings & Arbitrage Calculation.
+*   **How OmniSight Uses It:** We scrape the top 40 live product listings. By mathematically analyzing the retail prices, OmniSight establishes a "Retail Ceiling" and calculates an estimated B2B wholesale "Floor" margin. This instantly tells a dropshipper or hardware startup exactly how much profit buffer they have.
+
+### 3. Google Organic Search API (`engine: "google"`)
+*   **The Goal:** SEO Gap Analysis & Consumer Intent Mapping.
+*   **How OmniSight Uses It:** We specifically extract the **"Related Searches"** and **"People Also Ask" (PAA)** arrays from the SerpApi JSON payload. OmniSight then dynamically renders these arrays into an interactive `ReactFlow` node-graph. This visual "Threat Web" reveals the exact long-tail questions consumers are asking, allowing marketers to bypass saturated generic keywords and lower their Customer Acquisition Cost (CAC) by targeting niche intent.
+
+### 4. Google News API (`engine: "google_news"`)
+*   **The Goal:** Real-Time Brand Safety & PR Sentiment.
+*   **How OmniSight Uses It:** Markets shift overnight. OmniSight pulls the latest news headlines and feeds them directly into the "Live Agent Chat" sidebar. If a negative news cycle hits a product category, the agent immediately flags the PR threat to the user in real-time.
+
+### 5. YouTube Search API (`engine: "youtube"`)
+*   **The Goal:** Media Monitoring & Influencer Landscape.
+*   **How OmniSight Uses It:** We scrape the top-performing organic video results for the target query. OmniSight extracts the video IDs and channel data, natively embedding the actual high-performing YouTube iframes directly into the Media Monitor dashboard for instant qualitative review.
+
+---
+
 ## 🤖 The Agentic AI Workflow
 
-OMNISIGHT isn't just a dashboard—it's an active orchestration engine. It acts as an autonomous market analyst that thinks for itself.
+OmniSight isn't just a dashboard that spits out raw charts—it's an active orchestration engine that *thinks for itself*.
 
 ```mermaid
 graph TD
@@ -29,9 +58,9 @@ graph TD
     subgraph "SerpApi Data Aggregation Layer"
         Orchestrator --> |Promise.all| Trends[Google Trends API]
         Orchestrator --> |Promise.all| Shopping[Google Shopping API]
-        Orchestrator --> |Promise.all| Organic[Google Organic API]
+        Orchestrator --> |Promise.all| Organic[Google Organic Search API]
         Orchestrator --> |Promise.all| News[Google News API]
-        Orchestrator --> |Promise.all| Video[YouTube API]
+        Orchestrator --> |Promise.all| Video[YouTube Search API]
     end
     
     Trends --> |Raw JSON| Synthesizer(Next.js Synthesis Engine)
@@ -49,38 +78,16 @@ graph TD
     Strategy --> UI
     
     UI --> |Live Market Radar & Threat Web| Client
-    UI --> |Dynamic Blueprint Tabs| Client
+    UI --> |Dynamic AI Blueprint Tabs| Client
     UI --> |Real-Time AI Chat Feed| Client
 ```
-
----
-
-## 🧠 5-Engine SerpApi Orchestration
-
-OMNISIGHT pushes SerpApi to its absolute limit by executing parallel fetches across multiple global search engines to build a 360-degree view of any market:
-
-1. **Google Trends (`google_trends`):** 
-   - *Purpose:* Pulls 10-year historical data (2004-Present).
-   - *Execution:* Feeds into our custom Predictive AI forecast algorithm to extrapolate an 18-month "Future Trend" trajectory.
-2. **Google Shopping (`google_shopping`):** 
-   - *Purpose:* Analyzes the retail landscape.
-   - *Execution:* Scrapes top global retailers to calculate the market ceiling, establishing a wholesale arbitrage "floor" for instant B2B margin calculations.
-3. **Google Organic (`google`):** 
-   - *Purpose:* Uncovers consumer intent and SEO gaps.
-   - *Execution:* Extracts "People Also Ask" and "Related Searches" to dynamically generate an interactive `ReactFlow` node-graph mind-map.
-4. **Google News (`google_news`):** 
-   - *Purpose:* Monitors brand safety and global press.
-   - *Execution:* Populates the Live Chatbot Feed with real-time PR updates.
-5. **YouTube (`youtube`):** 
-   - *Purpose:* Media monitoring and sentiment.
-   - *Execution:* Pulls the latest high-impact video reviews and dynamically embeds the actual iframes directly into the dashboard.
 
 ---
 
 ## 💻 Core Platform Features
 
 ### 1. Autonomous Startup Blueprint
-A beautiful, dynamic report that categorizes AI-generated market data into a sleek Tabbed UI:
+A beautiful, dynamic report that categorizes AI-generated market data into a sleek Tabbed UI. **Every single word in this section is generated on the fly by Gemini 1.5 Flash based on the live SerpApi data:**
 - **Executive Summary:** Identifies the core financial opportunity and the exact pain point competitors are ignoring.
 - **Market Gap Analysis:** Breaks down what is going well, what needs attention, and uncovers the "Why?" behind consumer behavior based on live SEO questions.
 - **Visual Roadmap:** A 3-phase (Now, Next, Later) execution plan injected with calculated profit projections.
@@ -98,16 +105,16 @@ Real-time generation of Market Threat Matrices combining `Recharts` visualizatio
 
 ## 🏢 Business Use Cases
 
-*   **E-Commerce & Dropshippers:** Instantly calculate the arbitrage gap between AliExpress wholesale floors and Walmart/Amazon retail ceilings.
-*   **Hedge Funds & VC:** Analyze macro-demand stability (via 10-year Trends data) before deploying capital into emerging hardware sectors.
-*   **SEO & Marketing Agencies:** Bypass generic head-keywords and instantly discover long-tail consumer intent clusters to lower Customer Acquisition Cost (CAC).
+*   **E-Commerce & Dropshippers:** Instantly calculate the arbitrage gap between AliExpress wholesale floors and Google Shopping retail ceilings.
+*   **Hedge Funds & VC:** Analyze macro-demand stability (via 10-year Google Trends data) before deploying capital into emerging hardware sectors.
+*   **SEO & Marketing Agencies:** Bypass generic head-keywords and instantly discover long-tail consumer intent clusters (via People Also Ask) to drastically lower Customer Acquisition Cost (CAC).
 
 ---
 
 ## 🛠️ Technical Architecture
 
 *   **Framework:** Next.js 14 (App Router, Serverless API Routes)
-*   **Data Aggregation:** SerpApi Node SDK (Concurrent `Promise.all` fetching)
+*   **Data Aggregation:** SerpApi Node SDK (Concurrent `Promise.all` fetching across 5 endpoints)
 *   **Artificial Intelligence:** Google Gemini API (Strict JSON schema enforcement)
 *   **Visualizations:** Recharts (Area, Bar, Radar, Pie), React Flow (Node Graphs)
 *   **Styling & UI:** Tailwind CSS (Dark Mode / Glassmorphism), Lucide React Icons
@@ -129,7 +136,7 @@ Real-time generation of Market Threat Matrices combining `Recharts` visualizatio
 3. **Configure Environment Variables:** 
    Create a `.env.local` file in the root directory:
    ```env
-   # Required for market data aggregation
+   # Required for market data aggregation across all 5 engines
    SERPAPI_API_KEY=your_serpapi_api_key_here
    
    # Required to unlock the Live Agent Synthesis & Dynamic Blueprints
@@ -142,4 +149,4 @@ Real-time generation of Market Threat Matrices combining `Recharts` visualizatio
 5. **Access the terminal:** Open [http://localhost:3000](http://localhost:3000)
 
 ---
-*Architected and developed for the **SerpApi India Hackathon 2026**.*
+*Architected and developed specifically for the **SerpApi India Hackathon 2026**.*

@@ -1,152 +1,401 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/SerpApi_India_Hackathon_2026-Grand_Prize_Contender-8b5cf6?style=for-the-badge&logo=google" alt="Hackathon Badge"/>
-  <img src="https://img.shields.io/badge/Powered_by-SerpApi-FFCC00?style=for-the-badge&logo=api" alt="SerpApi Badge"/>
-  <img src="https://img.shields.io/badge/Powered_by-Google_Gemini-4285F4?style=for-the-badge&logo=google" alt="Gemini Badge"/>
-  <img src="https://img.shields.io/badge/Next.js_14-App_Router-000000?style=for-the-badge&logo=next.js" alt="Next.js Badge"/>
-  <br/><br/>
-  <h1>🛡️ OMNISIGHT</h1>
-  <p><strong>The First Autonomous, Agentic Enterprise Market Intelligence Platform</strong></p>
-  <p><i>Transforming raw search data into predictive startup blueprints in milliseconds.</i></p>
+
+<img src="https://img.shields.io/badge/SerpApi_India_Hackathon-2026-8b5cf6?style=for-the-badge" alt="Hackathon"/>
+<img src="https://img.shields.io/badge/Powered_by-SerpApi-FFB000?style=for-the-badge" alt="SerpApi"/>
+<img src="https://img.shields.io/badge/AI-Google_Gemini-4285F4?style=for-the-badge&logo=google" alt="Gemini"/>
+<img src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=next.js" alt="Next.js"/>
+<img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
+
+# 🛡️ OMNISIGHT
+
+**Autonomous market intelligence: 5 SerpApi engines + Google Gemini, one search box.**
+
+Type a product or market. OmniSight queries five SerpApi engines in parallel, builds charts and an SEO graph from the results, and has Gemini write a startup blueprint you can question in a live chat.
+
 </div>
 
 ---
 
-## 🚀 Executive Vision
+## 📑 Contents
 
-The era of manual market research is dead. Modern dropshippers, SaaS founders, and hedge funds spend weeks scraping Google, analyzing trends, and calculating wholesale margins. 
-
-**OMNISIGHT** completely automates this. Built exclusively for the **SerpApi India Hackathon 2026**, OMNISIGHT is a B2B SaaS command center that deploys an autonomous orchestrator to concurrently query **5 distinct SerpApi engines**, synthesizes the raw JSON, and feeds it into an **LLM Agent** (Google Gemini) to generate a massive, predictive storytelling dashboard in real-time.
-
----
-
-## 🌩️ The Power of SerpApi: A 5-Engine Orchestration
-
-At the heart of OmniSight is a master orchestrator that pushes **SerpApi** to its absolute concurrent limits. By leveraging `Promise.all`, OmniSight executes a parallel data-harvesting sequence across 5 unique search engines simultaneously. 
-
-Without SerpApi, gathering this scale of real-time data would take hours of complex, fragile scraping. With SerpApi, OmniSight acquires a 360-degree view of any global market in under 2 seconds.
-
-### 1. Google Trends API (`engine: "google_trends"`)
-*   **The Goal:** Macro-Market Viability & Forecasting.
-*   **How OmniSight Uses It:** We pass `date: "all"` to SerpApi to pull historical trend data spanning back to 2004. OmniSight maps this massive timeline into a fluid `Recharts` visualization, allowing the LLM to analyze the slope of the trend to determine if a market is a fad (e.g., fidget spinners) or a stable, growing industry.
-
-### 2. Google Shopping API (`engine: "google_shopping"`)
-*   **The Goal:** Retail Ceilings & Arbitrage Calculation.
-*   **How OmniSight Uses It:** We scrape the top 40 live product listings. By mathematically analyzing the retail prices, OmniSight establishes a "Retail Ceiling" and calculates an estimated B2B wholesale "Floor" margin. This instantly tells a dropshipper or hardware startup exactly how much profit buffer they have.
-
-### 3. Google Organic Search API (`engine: "google"`)
-*   **The Goal:** SEO Gap Analysis & Consumer Intent Mapping.
-*   **How OmniSight Uses It:** We specifically extract the **"Related Searches"** and **"People Also Ask" (PAA)** arrays from the SerpApi JSON payload. OmniSight then dynamically renders these arrays into an interactive `ReactFlow` node-graph. This visual "Threat Web" reveals the exact long-tail questions consumers are asking, allowing marketers to bypass saturated generic keywords and lower their Customer Acquisition Cost (CAC) by targeting niche intent.
-
-### 4. Google News API (`engine: "google_news"`)
-*   **The Goal:** Real-Time Brand Safety & PR Sentiment.
-*   **How OmniSight Uses It:** Markets shift overnight. OmniSight pulls the latest news headlines and feeds them directly into the "Live Agent Chat" sidebar. If a negative news cycle hits a product category, the agent immediately flags the PR threat to the user in real-time.
-
-### 5. YouTube Search API (`engine: "youtube"`)
-*   **The Goal:** Media Monitoring & Influencer Landscape.
-*   **How OmniSight Uses It:** We scrape the top-performing organic video results for the target query. OmniSight extracts the video IDs and channel data, natively embedding the actual high-performing YouTube iframes directly into the Media Monitor dashboard for instant qualitative review.
+- [Why OmniSight](#-why-omnisight)
+- [SerpApi: The Data Backbone (Deep Dive)](#-serpapi-the-data-backbone-deep-dive)
+  - [What SerpApi does for us](#what-serpapi-does-for-us)
+  - [SDK and setup](#sdk-and-setup)
+  - [Engine 1 — Google Shopping](#engine-1--google-shopping)
+  - [Engine 2 — Google News](#engine-2--google-news)
+  - [Engine 3 — Google Trends](#engine-3--google-trends)
+  - [Engine 4 — YouTube](#engine-4--youtube)
+  - [Engine 5 — Google Organic Search](#engine-5--google-organic-search)
+  - [Parallel orchestration](#parallel-orchestration)
+  - [Failure isolation](#failure-isolation)
+  - [From SerpApi JSON to the UI](#from-serpapi-json-to-the-ui)
+  - [Credit usage](#credit-usage)
+- [Gemini AI Layer](#-gemini-ai-layer)
+- [Agentic Workflow Diagram](#-agentic-workflow-diagram)
+- [Features by Tab](#-features-by-tab)
+- [Architecture & Project Structure](#-architecture--project-structure)
+- [API Reference](#-api-reference)
+- [Live vs. Estimated Data](#-live-vs-estimated-data)
+- [Setup](#-setup)
+- [Documentation](#-documentation)
 
 ---
 
-## 🤖 The Agentic AI Workflow
+## 💡 Why OmniSight
 
-OmniSight isn't just a dashboard that spits out raw charts—it's an active orchestration engine that *thinks for itself*.
+Checking whether a market is worth entering usually means opening Google Trends, Google Shopping, Google Search, Google News, and YouTube in separate tabs, then trying to combine what you see by hand.
+
+OmniSight does all five lookups in one request through **SerpApi**, puts the results on one screen, and uses **Gemini** to turn them into a plan.
+
+---
+
+## 🌩️ SerpApi: The Data Backbone (Deep Dive)
+
+**Every live number, headline, video, question, and price in OmniSight comes from SerpApi.** Without it, this project would need five separate scrapers, proxy rotation, CAPTCHA handling, and HTML parsers that break whenever Google changes its layout.
+
+### What SerpApi does for us
+
+| Without SerpApi | With SerpApi |
+|---|---|
+| Write and maintain an HTML scraper per engine | One `getJson()` call per engine |
+| Rotate proxies, handle blocks and CAPTCHAs | Handled by SerpApi |
+| Parse changing page layouts | Stable JSON keys (`shopping_results`, `news_results`, …) |
+| Different formats per source | Same request/response pattern for all 5 engines |
+
+### SDK and setup
+
+OmniSight uses the official [`serpapi`](https://www.npmjs.com/package/serpapi) Node package. All engine calls live in **[`src/lib/serpapi.ts`](src/lib/serpapi.ts)**.
+
+```ts
+import { getJson } from "serpapi";
+const API_KEY = process.env.SERPAPI_API_KEY; // server-side only
+```
+
+The key is only read inside Next.js server routes, so it never reaches the browser.
+
+---
+
+### Engine 1 — Google Shopping
+
+**Question it answers:** *What does this product sell for, and who sells it?*
+
+```ts
+getJson({ engine: "google_shopping", q: query, hl: "en", gl: "us", api_key })
+```
+
+| Parameter | Value | Meaning |
+|---|---|---|
+| `engine` | `google_shopping` | Google Shopping results |
+| `q` | user query | Product search term |
+| `hl` | `en` | Interface language |
+| `gl` | `us` | Country for prices and retailers |
+
+**Response fields used:** `shopping_results[]` → `title`, `source`, `price`, `link`, `thumbnail`
+**Kept:** first 15 results → `marketPricing`
+
+**Where it shows up:**
+- **Retail Price bar chart** — price per retailer (price strings like `"$1,299.00"` are parsed to numbers).
+- **Retail ceiling / floor / average** — max, min, and mean of live prices.
+- **Pricing Alert** in the chat — *"Retail ceiling is $X. Target $Y bulk."*
+- **B2B Wholesale Hub** — one card per retailer with the live retail price.
+- **Gemini context** — top 3–4 prices are sent to the AI routes.
+
+---
+
+### Engine 2 — Google News
+
+**Question it answers:** *Is anything happening right now that affects this market?*
+
+```ts
+getJson({ engine: "google_news", q: query, gl: "us", api_key })
+```
+
+**Response fields used:** `news_results[]` → `title`, `source.name`, `link`, `date`
+**Kept:** first 8 → `sentimentNews`
+
+**Where it shows up:**
+- **Live Data Feed** message in the chat (example from a real run: *"More than 42,000 trimmer mowers recalled over fire hazard" — FOX 13 Seattle*).
+- **News Hype** axis on the radar chart.
+- **Gemini context** — top headlines let the AI react to recalls, bans, or launches.
+
+---
+
+### Engine 3 — Google Trends
+
+**Question it answers:** *Is interest growing, flat, or fading?*
+
+```ts
+getJson({ engine: "google_trends", q: query, data_type: "TIMESERIES", date: "all", api_key })
+```
+
+| Parameter | Value | Meaning |
+|---|---|---|
+| `data_type` | `TIMESERIES` | Interest over time |
+| `date` | `all` | Full history, 2004 to today |
+
+**Response fields used:** `interest_over_time.timeline_data[]` → `date`, `values[0].extracted_value` (0–100)
+**Kept:** full timeline → `historicalTrends`
+
+**Where it shows up:**
+- **Historical + Forecast area chart.** OmniSight samples every 6th point, then extends the line 18 months forward using the average change of the last five samples, so you can see where the trend is heading.
+
+---
+
+### Engine 4 — YouTube
+
+**Question it answers:** *What are reviewers and creators saying?*
+
+```ts
+getJson({ engine: "youtube", search_query: query, api_key })
+```
+
+> Note: the YouTube engine uses `search_query`, not `q`.
+
+**Response fields used:** `video_results[]` → `title`, `link`, `channel`, `views`, `published_date`
+**Kept:** first 6 → `influencerSentiment`
+
+**Where it shows up:**
+- **Media Monitor tab** — real embedded YouTube players (the video ID is taken from the `v=` part of each `link`).
+- **Video Reach** axis on the radar chart.
+
+---
+
+### Engine 5 — Google Organic Search
+
+**Question it answers:** *What are people actually asking and searching for?*
+
+```ts
+getJson({ engine: "google", q: query, api_key })
+```
+
+**Response fields used:**
+
+| Field | Google feature | Kept as |
+|---|---|---|
+| `related_questions[].question` | "People Also Ask" | `seoData.questions` |
+| `related_searches[].query` | "Related searches" | `seoData.searches` |
+| `organic_results[]` (top 5) | Ranking pages | `seoData.rankings` |
+
+**Where it shows up:**
+- **SEO Threat Web** — an interactive React Flow graph: the query in the centre, up to 4 "People Also Ask" questions on the left, up to 4 related searches on the right.
+- **Demand** axis on the radar chart.
+- **Gemini context** — the top 5 questions drive the "Market Gap" and "The Why" sections of the blueprint.
+
+---
+
+### Parallel orchestration
+
+[`src/app/api/analyze/route.ts`](src/app/api/analyze/route.ts) fires all five engines at the same time:
+
+```ts
+const [shoppingData, newsData, trendsData, youtubeData, organicData] = await Promise.all([
+  searchGoogleShopping(query),
+  searchNews(query),
+  searchGoogleTrends(query),
+  searchYouTube(query),
+  searchGoogleOrganic(query)
+]);
+```
+
+The response time is roughly the time of the **slowest single engine**, not all five added together.
+
+### Failure isolation
+
+Each engine function has its own `try/catch` and returns `null` on failure. The route then defaults every field to an empty array:
+
+```ts
+const newsResults = newsData?.news_results || [];
+```
+
+If one engine fails, the other four still render.
+
+### From SerpApi JSON to the UI
+
+```mermaid
+flowchart LR
+    S1["google_shopping<br/>shopping_results"] --> P["marketPricing"]
+    S2["google_news<br/>news_results"] --> N["sentimentNews"]
+    S3["google_trends<br/>timeline_data"] --> T["historicalTrends"]
+    S4["youtube<br/>video_results"] --> V["influencerSentiment"]
+    S5["google<br/>related_questions / related_searches"] --> Q["seoData"]
+
+    P --> C1["Price Bar Chart"]
+    P --> C2["Wholesale Hub"]
+    P --> C3["Pricing Alert"]
+    N --> C4["Live News Feed"]
+    T --> C5["Trend + Forecast Chart"]
+    V --> C6["Media Monitor"]
+    Q --> C7["SEO Threat Web"]
+    N --> R["Radar Chart"]
+    V --> R
+    Q --> R
+
+    P --> G["Gemini Context"]
+    N --> G
+    Q --> G
+    G --> B["Blueprint / Agent / Chat"]
+```
+
+### Credit usage
+
+| Action | SerpApi searches used |
+|---|---|
+| Click **Execute** | **5** (one per engine) |
+| Blueprint generation | 0 (reuses fetched data) |
+| Agent synthesis | 0 |
+| Each chat message | 0 |
+
+---
+
+## 🧠 Gemini AI Layer
+
+After SerpApi returns, the browser sends the combined data to three Gemini-backed routes (model: `gemini-1.5-flash`):
+
+| Route | What Gemini receives | What it returns |
+|---|---|---|
+| [`/api/agent`](src/app/api/agent/route.ts) | Top prices, headlines, questions | A 3-sentence market recommendation (shown as **Agent Synthesis** in chat) |
+| [`/api/blueprint`](src/app/api/blueprint/route.ts) | Top prices, headlines, questions + a strict JSON schema | A full startup blueprint as JSON (opportunity, problem, solution, gaps, recommendation, detailed analysis, 3-phase roadmap) |
+| [`/api/chat`](src/app/api/chat/route.ts) | The user's question + live prices and headlines | A short answer grounded in the current search |
+
+**Fallbacks:** if the Gemini key is missing, invalid, or rate-limited, each route returns a ready-made response with HTTP 200, so the interface never hangs.
+
+---
+
+## 🤖 Agentic Workflow Diagram
 
 ```mermaid
 graph TD
-    User([User Prompt: "Electric Scooters"]) --> Orchestrator
-    
-    subgraph "SerpApi Data Aggregation Layer"
-        Orchestrator --> |Promise.all| Trends[Google Trends API]
-        Orchestrator --> |Promise.all| Shopping[Google Shopping API]
-        Orchestrator --> |Promise.all| Organic[Google Organic Search API]
-        Orchestrator --> |Promise.all| News[Google News API]
-        Orchestrator --> |Promise.all| Video[YouTube Search API]
+    U(["User enters a market, e.g. 'electric scooters'"]) --> O["/api/analyze orchestrator"]
+
+    subgraph SERP["SerpApi layer — parallel Promise.all"]
+        O --> E1["google_shopping"]
+        O --> E2["google_news"]
+        O --> E3["google_trends"]
+        O --> E4["youtube"]
+        O --> E5["google (organic)"]
     end
-    
-    Trends --> |Raw JSON| Synthesizer(Next.js Synthesis Engine)
-    Shopping --> |Raw JSON| Synthesizer
-    Organic --> |Raw JSON| Synthesizer
-    News --> |Raw JSON| Synthesizer
-    Video --> |Raw JSON| Synthesizer
-    
-    subgraph "Generative Intelligence Layer (Google Gemini)"
-        Synthesizer --> |Compresses Context: Prices, News, SEO| LLM[LLM API Route /api/blueprint]
-        LLM --> |Enforces strict JSON schema generation| Strategy[Autonomous Strategy Generation]
+
+    E1 --> M["Merged market object"]
+    E2 --> M
+    E3 --> M
+    E4 --> M
+    E5 --> M
+
+    M --> UI["Dashboards render immediately"]
+
+    subgraph AI["Gemini layer — runs in background"]
+        M --> A1["/api/agent<br/>3-sentence synthesis"]
+        M --> A2["/api/blueprint<br/>strict JSON strategy"]
+        M --> A3["/api/chat<br/>follow-up answers"]
     end
-    
-    Synthesizer --> UI(Frontend Dashboards)
-    Strategy --> UI
-    
-    UI --> |Live Market Radar & Threat Web| Client
-    UI --> |Dynamic AI Blueprint Tabs| Client
-    UI --> |Real-Time AI Chat Feed| Client
+
+    A1 --> CH["Live Agent sidebar"]
+    A2 --> BP["Startup Blueprint tabs"]
+    A3 --> CH
+    U -. "asks questions" .-> A3
 ```
 
 ---
 
-## 💻 Core Platform Features
+## 🖥️ Features by Tab
 
-### 1. Autonomous Startup Blueprint
-A beautiful, dynamic report that categorizes AI-generated market data into a sleek Tabbed UI. **Every single word in this section is generated on the fly by Gemini 1.5 Flash based on the live SerpApi data:**
-- **Executive Summary:** Identifies the core financial opportunity and the exact pain point competitors are ignoring.
-- **Market Gap Analysis:** Breaks down what is going well, what needs attention, and uncovers the "Why?" behind consumer behavior based on live SEO questions.
-- **Visual Roadmap:** A 3-phase (Now, Next, Later) execution plan injected with calculated profit projections.
-
-### 2. The Interactive SEO Threat Web
-A fully interactive `ReactFlow` node-graph mapping out consumer search intent. Click any node in the web to instantly reveal simulated enterprise metrics (Est. Volume, Keyword Difficulty, CPC). 
-
-### 3. Live LLM Chatbot Feed
-A sidebar AI agent that streams real-time news headlines (from SerpApi News), calculates pricing arbitrage alerts, and uses a connected LLM to synthesize market movements into a live terminal feed.
-
-### 4. Predictive Radar Matrices
-Real-time generation of Market Threat Matrices combining `Recharts` visualizations with live SerpApi search volumes.
+| Tab | What you see | Data source |
+|---|---|---|
+| **Market Dashboard** | Trend + forecast area chart, retail price bar chart, market threat radar, live AI chat sidebar | Trends, Shopping, News, YouTube, Organic, Gemini |
+| **SEO Threat Web** | Interactive node graph of questions and related searches; click a node for details | Organic (`related_questions`, `related_searches`) |
+| **Media Monitor** | Embedded YouTube review videos and news | YouTube, News |
+| **B2B Wholesale Hub** | Retailer cards with live retail price and estimated bulk price | Shopping |
+| **Startup Blueprint** | Executive Summary · Market Gap Analysis · Visual Roadmap, plus "View detailed analysis" | Gemini (from SerpApi data) |
+| **Export Report** | Downloads the project PDF | Static file |
+| **API Access / Settings** | Demo API card; region and language selectors | UI only |
 
 ---
 
-## 🏢 Business Use Cases
+## 🏗️ Architecture & Project Structure
 
-*   **E-Commerce & Dropshippers:** Instantly calculate the arbitrage gap between AliExpress wholesale floors and Google Shopping retail ceilings.
-*   **Hedge Funds & VC:** Analyze macro-demand stability (via 10-year Google Trends data) before deploying capital into emerging hardware sectors.
-*   **SEO & Marketing Agencies:** Bypass generic head-keywords and instantly discover long-tail consumer intent clusters (via People Also Ask) to drastically lower Customer Acquisition Cost (CAC).
+```
+supply-chain-sleuth/
+├── src/
+│   ├── lib/serpapi.ts             # 5 SerpApi engine functions
+│   └── app/
+│       ├── page.tsx               # Full client UI: tabs, charts, chat, modals
+│       ├── layout.tsx             # Root layout
+│       ├── globals.css            # Tailwind + global styles
+│       └── api/
+│           ├── analyze/route.ts   # Runs the 5 engines in parallel
+│           ├── agent/route.ts     # Gemini synthesis
+│           ├── blueprint/route.ts # Gemini JSON blueprint
+│           └── chat/route.ts      # Gemini chat
+├── public/OmniSight_Hackathon_Report.pdf
+└── docs/                          # Report and pitch deck (MD, PDF, PPTX)
+```
+
+| Layer | Tech |
+|---|---|
+| Framework | Next.js 16 (App Router), React 19, TypeScript |
+| Styling | Tailwind CSS 4 (dark theme) |
+| Charts | Recharts 3 (Area, Bar, Radar, Pie) |
+| Graph | @xyflow/react (React Flow 12) |
+| Search data | SerpApi Node SDK (`serpapi`) |
+| AI | Google Gemini REST API |
+
+---
+
+## 🔌 API Reference
+
+| Endpoint | Body | Returns |
+|---|---|---|
+| `POST /api/analyze` | `{ "query": "trimmers" }` | `{ query, marketPricing, sentimentNews, historicalTrends, influencerSentiment, seoData }` |
+| `POST /api/agent` | `{ "query", "serpData" }` | `{ "response": "..." }` |
+| `POST /api/blueprint` | `{ "query", "serpData" }` | `{ opportunityTitle, opportunityText, problemText, solutionText, goingWell[], needsAttention[], theWhy[], recommendation, detailedAnalysis, phase1[], phase2[], phase3[] }` |
+| `POST /api/chat` | `{ "message", "serpData" }` | `{ "response": "..." }` |
 
 ---
 
-## 🛠️ Technical Architecture
+## 🔍 Live vs. Estimated Data
 
-*   **Framework:** Next.js 14 (App Router, Serverless API Routes)
-*   **Data Aggregation:** SerpApi Node SDK (Concurrent `Promise.all` fetching across 5 endpoints)
-*   **Artificial Intelligence:** Google Gemini API (Strict JSON schema enforcement)
-*   **Visualizations:** Recharts (Area, Bar, Radar, Pie), React Flow (Node Graphs)
-*   **Styling & UI:** Tailwind CSS (Dark Mode / Glassmorphism), Lucide React Icons
-*   **State Management:** React Hooks (`useState`, `useEffect`)
+**Live from SerpApi on every search:** retail prices and retailers, news headlines, the Google Trends timeline, YouTube videos, "People Also Ask" questions, related searches, and organic rankings.
+
+**Estimated or illustrative (clearly not live):**
+- Wholesale price = 35% of average retail price.
+- SEO node volume / CPC / difficulty are calculated from the keyword length for display.
+- Supplier emails in the Wholesale Hub are generated from the retailer name.
+- Market channel pie chart and the Margins / Competition radar axes use fixed values.
+- The forecast is a simple straight-line projection.
+
+---
+
+## ⚙️ Setup
+
+```bash
+git clone https://github.com/shrikargs7-cloud/OmniSight.git
+cd OmniSight
+npm install
+```
+
+Create `.env.local`:
+
+```env
+SERPAPI_API_KEY=your_serpapi_key
+GEMINI_API_KEY=your_gemini_key   # Google AI Studio keys usually start with "AIza"
+```
+
+Run:
+
+```bash
+npm run dev      # http://localhost:3000
+```
 
 ---
 
-## ⚙️ Local Installation & Deployment
+## 📚 Documentation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/shrikargs7-cloud/OmniSight.git
-   cd OmniSight
-   ```
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-3. **Configure Environment Variables:** 
-   Create a `.env.local` file in the root directory:
-   ```env
-   # Required for market data aggregation across all 5 engines
-   SERPAPI_API_KEY=your_serpapi_api_key_here
-   
-   # Required to unlock the Live Agent Synthesis & Dynamic Blueprints
-   GEMINI_API_KEY=your_gemini_api_key_here
-   ```
-4. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
-5. **Access the terminal:** Open [http://localhost:3000](http://localhost:3000)
+| File | Description |
+|---|---|
+| [`docs/OmniSight_Hackathon_Report.pdf`](docs/OmniSight_Hackathon_Report.pdf) | Full project documentation: every file, function, state variable, data schema, and formula |
+| [`docs/OmniSight_Pitch_Deck.pptx`](docs/OmniSight_Pitch_Deck.pptx) | 10-slide pitch deck with speaker notes |
 
 ---
-*Architected and developed specifically for the **SerpApi India Hackathon 2026**.*
+
+<div align="center"><i>Built for the SerpApi India Hackathon 2026.</i></div>

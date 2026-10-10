@@ -15,6 +15,9 @@ export default function Home() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [agentMessage, setAgentMessage] = useState<string | null>(null);
   const [blueprintTab, setBlueprintTab] = useState("executive");
+  const [chatInput, setChatInput] = useState("");
+  const [isChatting, setIsChatting] = useState(false);
+  const [userChatHistory, setUserChatHistory] = useState<any[]>([]);
   
   useEffect(() => {
     if (activeModal === 'export') {
@@ -32,6 +35,30 @@ export default function Home() {
   }, [activeModal]);
   const [blueprintLoading, setBlueprintLoading] = useState(false);
   const [aiBlueprint, setAiBlueprint] = useState<any>(null);
+
+  const handleChatSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatInput.trim()) return;
+    
+    const userMsg = chatInput.trim();
+    setChatInput("");
+    setUserChatHistory(prev => [...prev, { type: "user", text: userMsg }]);
+    setIsChatting(true);
+    
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMsg, serpData: results })
+      });
+      const data = await res.json();
+      setUserChatHistory(prev => [...prev, { type: "llm", text: data.response || "No response." }]);
+    } catch (err) {
+      setUserChatHistory(prev => [...prev, { type: "system", text: "Chat engine offline." }]);
+    } finally {
+      setIsChatting(false);
+    }
+  };
 
   const handleAnalyze = async () => {
     if (!query) return;
@@ -445,7 +472,7 @@ export default function Home() {
                    <div className="flex-1 p-4 overflow-auto space-y-4 flex flex-col-reverse">
                      {/* Reversed so it feels like a feed, we render bottom-to-top visually or just standard */}
                      <div className="space-y-4">
-                       {chatMessages.map((msg, i) => (
+                       {[...chatMessages, ...userChatHistory].map((msg, i) => (
                          <div key={i} className={`p-3 rounded-xl rounded-tl-sm text-xs font-mono border ${
                            msg.type === 'system' ? 'bg-[#1a1a1a] border-white/5 text-slate-300' :
                            msg.type === 'llm' ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-200' :
@@ -453,7 +480,7 @@ export default function Home() {
                            'bg-emerald-500/10 border-emerald-500/20 text-emerald-300'
                          }`}>
                            <strong className="block mb-1 text-[10px] uppercase opacity-70">
-                             {msg.type === 'news' ? '📰 Live Data Feed' : msg.type === 'alert' ? '💡 Pricing Alert' : msg.type === 'llm' ? '🤖 Agent Synthesis' : '⚙️ System'}
+                             {msg.type === 'user' ? '👤 You' : msg.type === 'news' ? '📰 Live Data Feed' : msg.type === 'alert' ? '💡 Pricing Alert' : msg.type === 'llm' ? '🤖 Agent Synthesis' : '⚙️ System'}
                            </strong>
                            {msg.text}
                          </div>
@@ -462,9 +489,19 @@ export default function Home() {
                    </div>
                    
                    <div className="p-3 border-t border-white/5 bg-[#0a0a0a]">
-                     <div className="bg-[#1a1a1a] border border-white/5 rounded-lg px-3 py-2 text-xs text-slate-500 flex justify-between items-center">
-                        Agent is monitoring... <Activity className="h-3 w-3 animate-pulse text-indigo-500"/>
-                     </div>
+                     <form onSubmit={handleChatSubmit} className="relative">
+                        <input 
+                          type="text" 
+                          value={chatInput}
+                          onChange={(e) => setChatInput(e.target.value)}
+                          placeholder="Ask the AI agent..." 
+                          className="w-full bg-[#1a1a1a] border border-white/5 focus:border-indigo-500/50 rounded-lg pl-3 pr-10 py-2 text-xs text-white placeholder-slate-500 outline-none"
+                          disabled={isChatting}
+                        />
+                        <button type="submit" disabled={isChatting || !chatInput.trim()} className="absolute right-2 top-1.5 text-indigo-500 hover:text-indigo-400 disabled:opacity-50">
+                          {isChatting ? <Activity className="h-4 w-4 animate-spin"/> : <ArrowRight className="h-4 w-4"/>}
+                        </button>
+                     </form>
                    </div>
                  </div>
                </div>

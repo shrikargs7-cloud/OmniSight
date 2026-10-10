@@ -246,7 +246,7 @@ export default function Home() {
               <div className="space-y-4">
                  <Lightbulb className="h-8 w-8 text-yellow-400 mb-2" />
                  <h3 className="text-xl font-bold text-white">AI Analysis Report</h3>
-                 <p className="text-sm text-slate-400 mb-4">Based on our market scan, deploying $1000 into PPC ads specifically answering "{results?.seoData?.questions?.[0]?.question || 'How to buy?'}" will lower Customer Acquisition Cost by 40% compared to generic product keywords.</p>
+                 <p className="text-sm text-slate-400 mb-4">{aiBlueprint?.detailedAnalysis || "Run an analysis to view deep metrics."}</p>
                  <button onClick={() => setActiveModal(null)} className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 rounded-lg transition-colors">Acknowledge</button>
               </div>
             )}

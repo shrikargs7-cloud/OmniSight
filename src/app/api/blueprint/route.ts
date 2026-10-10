@@ -31,6 +31,7 @@ export async function POST(req: Request) {
       "needsAttention": ["String", "String"],
       "theWhy": ["String", "String"],
       "recommendation": "String (1 strong sentence)",
+      "detailedAnalysis": "String (1 paragraph explaining the strategic and mathematical rationale behind the recommendation)",
       "phase1": ["0-3 month action 1", "0-3 month action 2"],
       "phase2": ["3-6 month action 1", "3-6 month action 2"],
       "phase3": ["6-12 month action 1", "6-12 month action 2"]
@@ -70,6 +71,7 @@ export async function POST(req: Request) {
         needsAttention: ["Heavy saturation on generic head keywords.", "Top 5 related search clusters dominate the ad space."],
         theWhy: ["Consumers are actively seeking specific use-cases.", "Legacy brands are ignoring long-tail intent queries."],
         recommendation: "Target specific long-tail questions in ad copy to reduce CAC by 40%.",
+        detailedAnalysis: "Our market scan reveals that generic product keywords are oversaturated by legacy brands, driving Cost-Per-Click (CPC) up by an average of 35% YoY. By deploying capital specifically into 'People Also Ask' long-tail clusters, you bypass the bidding war entirely. This strategy captures high-intent buyers exactly when they are looking for a solution, mathematically lowering your Customer Acquisition Cost (CAC) while increasing conversion rates.",
         phase1: ["Setup B2B Supplier agreements for this query.", "Launch MVP landing page."],
         phase2: ["Execute targeted SEO strategy.", "Ship 10 units to micro-influencers."],
         phase3: ["Scale to 300 units/mo.", "Hit primary profit target based on retail floor margins."]
